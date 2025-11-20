@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer components {
+  .btn-1 {
+    @apply border rounded-md px-4 py-2;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
