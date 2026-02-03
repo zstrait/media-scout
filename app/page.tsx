@@ -3,7 +3,7 @@ import SearchBar from "./ui/SearchBar";
 export default function Home() {
     return (
         <>
-            <div className='flex flex-col align-center bg-[#2B2A32] text-gray-200 h-screen justify-between p-8 font-mono'>
+            <div className='flex flex-col align-center bg-[#3D3D3D] text-gray-200 h-screen justify-between p-8 font-mono'>
                 <header className='flex justify-between'>
                     <button>NavMenu</button>
                     <div className='flex justify-center gap-8 '>

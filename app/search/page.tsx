@@ -1,16 +1,16 @@
 import ListingCard from "../ui/search/ListingCard";
 import SearchBar from "../ui/SearchBar";
-
+import Link from "next/link";
 
 export default function Page() {
 
     return (
         <>
-            <div className='flex flex-col align-center bg-[#2B2A32] text-gray-200 h-screen justify-between p-4 pb-0 font-mono'>
+            <div className='flex flex-col align-center bg-[#343333] text-gray-200 h-screen justify-between p-4 pb-0 font-mono'>
 
                 <div className="flex flex-col gap-6">
                     <header className='flex justify-between items-center'>
-                        <button>NavMenu</button>
+                        <Link href='/'>Home</Link>
                         <SearchBar placeholder='Search...'/>
                         <div className='flex justify-center gap-8 '>
                             <button className="btn-1">darkmode</button>
@@ -36,11 +36,11 @@ export default function Page() {
                         <ListingCard />
                     </div>
                     <div className="flex flex-col gap-8">
-                        <ListingCard />
-                        <ListingCard />
-                        <ListingCard />
-                        <ListingCard />
-                        <ListingCard />
+                        <ListingCard slideDirection="left" />
+                        <ListingCard slideDirection="left" />
+                        <ListingCard slideDirection="left" />
+                        <ListingCard slideDirection="left" />
+                        <ListingCard slideDirection="left" />
                     </div>
                 </div>
             </div>
