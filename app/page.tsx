@@ -1,3 +1,4 @@
+import SearchBar from "./ui/SearchBar";
 
 export default function Home() {
     return (
@@ -12,10 +13,10 @@ export default function Home() {
                 </header>
                 <div className='flex flex-col items-center gap-8 mb-24'>
                     <h1 className='text-6xl'>Media Scout</h1>
-                    <input className='bg-gray-300 w-2xl px-8 py-4 rounded-2xl text-black font-semibold' placeholder='Search for album...'></input>
+                    <SearchBar placeholder='Search for album...' />
                 </div>
                 <footer className='flex justify-end'>
-                    <a className='hover:text-blue-300 hover:underline underline-offset-4 cursor-pointer' >github</a>
+                    <a className='hover:text-blue-300 hover:underline underline-offset-4 cursor-pointer' href="https://github.com/zstrait/media-scout" target="_blank">github</a>
                 </footer>
             </div>
         </>
