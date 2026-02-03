@@ -23,6 +23,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
         <input
             className='bg-gray-300 w-2xl px-8 py-4 rounded-2xl text-black font-semibold'
             placeholder={placeholder}
+            defaultValue={searchParams.get('query')?.toString()}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                     handleSearch(e.currentTarget.value);

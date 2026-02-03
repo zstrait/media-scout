@@ -1,6 +1,9 @@
 import ListingCard from "../ui/search/ListingCard";
+import SearchBar from "../ui/SearchBar";
+
 
 export default function Page() {
+
     return (
         <>
             <div className='flex flex-col align-center bg-[#2B2A32] text-gray-200 h-screen justify-between p-4 pb-0 font-mono'>
@@ -8,7 +11,7 @@ export default function Page() {
                 <div className="flex flex-col gap-6">
                     <header className='flex justify-between items-center'>
                         <button>NavMenu</button>
-                        <input className='bg-gray-300 w-2xl px-8 py-4 rounded-2xl text-black font-semibold' placeholder='Search for album...'></input>
+                        <SearchBar placeholder='Search...'/>
                         <div className='flex justify-center gap-8 '>
                             <button className="btn-1">darkmode</button>
                             <button className="btn-1">account</button>
