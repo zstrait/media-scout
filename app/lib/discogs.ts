@@ -11,7 +11,13 @@ interface DiscogsItem {
 }
 
 interface DiscogsResponse {
+    pagination: { items: number },
     results: DiscogsItem[]
+}
+
+interface SearchResults {
+    listings: Listing[],
+    totalItems: number
 }
 
 export async function getDiscogsResults(query: string): Promise<DiscogsResponse> {
@@ -53,18 +59,18 @@ export function mapListingData(item: DiscogsItem): Listing {
         price: 0,
         source: 'Discogs',
         sourceLink: listingsURL,
-        // postedDate: postedDate
     }
 }
 
-export async function handleDiscogsSearch(query: string): Promise<Listing[]> {
+export async function handleDiscogsSearch(query: string): Promise<SearchResults> {
     const releases = await getDiscogsResults(query);
+    const totalItems = releases.pagination.items;
 
     const listings = releases.results.map((item: DiscogsItem) => {
         return mapListingData(item);
     });
 
-    return listings;
+    return { listings, totalItems };
 }
 
 
