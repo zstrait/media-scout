@@ -20,6 +20,11 @@ interface SearchResults {
     totalItems: number
 }
 
+interface ReleaseStatistics {
+    lowest_price: { currency: string, value: number },
+    num_for_sale: number
+}
+
 export async function getDiscogsResults(query: string): Promise<DiscogsResponse> {
     const token = process.env.DISCOGS_TOKEN;
     if (!token) {
@@ -73,4 +78,27 @@ export async function handleDiscogsSearch(query: string): Promise<SearchResults>
     return { listings, totalItems };
 }
 
+export async function getReleaseStats(id: number): Promise<ReleaseStatistics> {
+    const releaseId = id.toString();
+    const url = `https://api.discogs.com/marketplace/stats/${releaseId}?curr_abbr=USD`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error("Error Fetching Release Stats");
+    }
+
+    const stats = await response.json() as ReleaseStatistics;
+
+    return stats;
+}
+
+export async function getLowestPrice(id: number): Promise<number | null> {
+    try {
+        const stats = await getReleaseStats(id);
+        return stats.lowest_price ? stats.lowest_price.value : null;
+    } catch (error) {
+        console.error(error);
+        return null; 
+    }
+}
 
