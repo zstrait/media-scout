@@ -63,7 +63,7 @@ export function mapListingData(item: DiscogsItem): Listing {
         artist: artist,
         year: item.year,
         format: item.format[0],
-        condition: 'Unknown',
+        condition: 'Pre-Owned',
         price: 0,
         source: 'Discogs',
         sourceLink: listingsURL,
@@ -76,18 +76,18 @@ export async function handleDiscogsSearch(query: string, page: number = 1): Prom
 
     const listingPromises = releases.results.map(async (item) => {
         const listing = mapListingData(item);
-        // const price = await getLowestPrice(item.id);
+        const price = await getLowestPrice(item.id);
         
-        // listing.price = price || 0; 
+        listing.price = price || 0; 
         
         return listing;
     });
     const listings = await Promise.all(listingPromises);
 
     // filter out listings w/o price available 
-    // const validListings = listings.filter(item => item.price > 0);
+    const validListings = listings.filter(item => item.price > 0);
 
-    return { listings, totalItems };
+    return { listings: validListings, totalItems };
 }
 
 export async function getReleaseStats(id: number): Promise<ReleaseStatistics> {

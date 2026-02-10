@@ -88,7 +88,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     </div>
                 </div>
                 <div className="flex items-center">
-                    <span className="text-4xl px-8">${listing.price}</span>
+                    <span className="text-3xl text-lime-500 px-8 font-semibold">${listing.price.toFixed(2)}</span>
                 </div>
                 <div className="flex flex-col justify-between py-2">
                     <button

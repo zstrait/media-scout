@@ -4,14 +4,24 @@ import ListingCard from "../ui/search/ListingCard";
 import SearchBar from "../ui/SearchBar";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Listing } from "../lib/types";
+
+
 
 export default function Page() {
     const [listings, setListings] = useState<Listing[]>([]);
     const [totalItems, setTotalItems] = useState<number>(0);
     const searchParams = useSearchParams();
     const query = searchParams.get('query');
+    const router = useRouter();
+    const page = Number(searchParams.get('page')) || 1;
+
+    const createPageURL = (pageNumber: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', pageNumber.toString());
+        return `/search?${params.toString()}`;
+    };
 
     useEffect(() => {
         if (!query) {
@@ -20,7 +30,7 @@ export default function Page() {
 
         const fetchData = async () => {
             try {
-                const res = await fetch(`/api/search?query=${query}`);
+                const res = await fetch(`/api/search?query=${query}&page=${page}`);
                 if (!res.ok) {
                     throw new Error('Failed to fetch data.')
                 }
@@ -35,11 +45,10 @@ export default function Page() {
         };
         fetchData();
 
-    }, [query]);
+    }, [query, page]);
 
     const leftColumnListings = listings.filter((_, index) => index % 2 === 0);
     const rightColumnListings = listings.filter((_, index) => index % 2 === 1);
-
 
     return (
         <>
@@ -71,10 +80,30 @@ export default function Page() {
                     </div>
                     <div className="flex flex-col gap-8">
                         {rightColumnListings.map((listing) => (
-                            <ListingCard key={listing.id} listing={listing} slideDirection="left"/>
+                            <ListingCard key={listing.id} listing={listing} slideDirection="left" />
                         ))}
                     </div>
                 </div>
+                {/* Pagination Controls */}
+                <div className="flex justify-center items-center gap-4 py-4 pb-4">
+                    <button
+                        disabled={page === 1}
+                        onClick={() => router.push(createPageURL(page - 1))}
+                        className="px-4 py-2 bg-gray-700 rounded-2xl disabled:opacity-50 hover:bg-gray-600 transition-colors b"
+                    >
+                        Prev
+                    </button>
+
+                    <span className="font-bold">Page {page}</span>
+
+                    <button
+                        onClick={() => router.push(createPageURL(page + 1))}
+                        className="px-4 py-2 bg-gray-700 rounded-2xl hover:bg-gray-600 transition-colors"
+                    >
+                        Next
+                    </button>
+                </div>
+
             </div>
         </>
     );
