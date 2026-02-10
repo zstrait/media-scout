@@ -1,6 +1,6 @@
 
 export interface Listing {
-    id: number,
+    id: number | string,
     cover?: string,
     title: string,
     artist: string,

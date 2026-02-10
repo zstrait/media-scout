@@ -50,7 +50,7 @@ export async function getDiscogsResults(query: string, page: number = 1): Promis
     return data;
 }
 
-export function mapListingData(item: DiscogsItem): Listing {
+export function mapDiscogListingData(item: DiscogsItem): Listing {
     const nameData = item.title.split('-');
     const title = nameData.length > 1 ? nameData[1] : item.title;
     const artist = nameData.length > 1 ? nameData[0] : 'Unknown Artist';
@@ -75,7 +75,7 @@ export async function handleDiscogsSearch(query: string, page: number = 1): Prom
     const totalItems = releases.pagination.items;
 
     const listingPromises = releases.results.map(async (item) => {
-        const listing = mapListingData(item);
+        const listing = mapDiscogListingData(item);
         const price = await getLowestPrice(item.id);
         
         listing.price = price || 0; 
