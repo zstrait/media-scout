@@ -13,6 +13,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
     const [zIndex, setZIndex] = useState('z-auto');
     const wrapperRef = useRef<HTMLDivElement>(null);
 
+
     const handleClose = () => {
         setIsOpen(false);
         setTimeout(() => {
@@ -116,10 +117,10 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     ${isOpen ? `w-[340px] ${translateClass}` : `w-[340px] translate-x-0 opacity-0 pointer-events-none`}
                 `}
             >
-                <span className="text-2xl text-black font-semibold px-4 text-center">Open Original Listing?</span>
+                <span className="text-2xl text-gray font-semibold px-4 text-center">Open Original Listing?</span>
                 <div className="flex gap-4">
-                    <a href={listing.sourceLink} target="_blank" className="border-2 border-black text-black text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">Yes</a>
-                    <button onClick={() => setIsOpen(false)} className="border-2 border-black text-black text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">No</button>
+                    <a href={listing.sourceLink} target="_blank" className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">Yes</a>
+                    <button onClick={() => setIsOpen(false)} className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">No</button>
                 </div>
             </div>
         </div>
