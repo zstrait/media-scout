@@ -13,3 +13,8 @@ export interface Listing {
     postedDate?: string,
     // isHearted: boolean
 }
+
+export interface SearchResults {
+    listings: Listing[],
+    totalItems: number
+}

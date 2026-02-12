@@ -1,4 +1,4 @@
-import { Listing } from './types'
+import { Listing, SearchResults } from './types'
 
 const DISCOGS_HEADERS = {
     'User-Agent': 'MediaScout/1.0',
@@ -18,11 +18,6 @@ interface DiscogsItem {
 interface DiscogsResponse {
     pagination: { items: number },
     results: DiscogsItem[]
-}
-
-interface SearchResults {
-    listings: Listing[],
-    totalItems: number
 }
 
 interface ReleaseStatistics {
@@ -66,7 +61,7 @@ export function mapDiscogListingData(item: DiscogsItem): Listing {
         condition: 'Pre-Owned',
         price: 0,
         source: 'Discogs',
-        sourceLink: listingsURL,
+        sourceLink: listingsURL
     }
 }
 
