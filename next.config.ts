@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
                 hostname: 'st.discogs.com',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'i.ebayimg.com',
+                pathname: '/**',
+            }
         ],
     }
 };

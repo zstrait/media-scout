@@ -1,6 +1,7 @@
 import { Listing, SearchResults } from "./types";
 
 interface ebayItem {
+    title: string,
     image: { height: number, imageUrl: string, width: number },
     itemCreationDate: string,
     itemId: string,
@@ -24,9 +25,16 @@ interface localizedAspect {
     value: string
 }
 
+let cachedToken: string | null = null;
+let tokenExpiration: number = 0;
 
 // needed for ebay's oauth requirements
 async function getAccessToken(): Promise<string> {
+    const now = Date.now();
+    if (cachedToken && now < tokenExpiration - 10000) {
+        return cachedToken;
+    }
+
     const clientId = process.env.EBAY_APP_ID;
     const clientSecret = process.env.EBAY_CERT_ID;
 
@@ -52,6 +60,9 @@ async function getAccessToken(): Promise<string> {
         throw new Error(`Failed to fetch eBay token: ${response.status}`);
     }
     const data = await response.json();
+
+    cachedToken = data.access_token;
+    tokenExpiration = now + (data.expires_in * 1000);
 
     return data.access_token;
 }
@@ -110,7 +121,8 @@ export function getDetail(detailName: string, itemDetails: ebayItemDetails): str
 }
 
 export function mapEbayListingData(item: ebayItem, itemDetails: ebayItemDetails): Listing {
-    const title = getDetail('Release Title', itemDetails);
+    const releaseTitle = getDetail('Release Title', itemDetails);
+    const title = (releaseTitle === 'N/A') ? item.title : releaseTitle;
     const artist = getDetail('Artist', itemDetails);
     const year = getDetail('Release Year', itemDetails);
     const format = getDetail('Format', itemDetails);
@@ -142,7 +154,7 @@ export async function handleEbaySearch(query: string, page: number = 1): Promise
     })
     const listings = await Promise.all(listingPromises);
 
-    return {listings: listings, totalItems};
+    return { listings: listings, totalItems };
 }
 
 

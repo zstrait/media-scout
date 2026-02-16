@@ -7,8 +7,6 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
 import { Listing } from "../lib/types";
 
-
-
 export default function Page() {
     const [listings, setListings] = useState<Listing[]>([]);
     const [totalItems, setTotalItems] = useState<number>(0);

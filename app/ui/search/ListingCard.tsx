@@ -74,9 +74,9 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
 
                 <div className="flex flex-col flex-1 justify-between py-2 min-w-0">
                     <div className="flex flex-col gap-1">
-                        <span className="text-2xl min-w-0">{listing.title}</span>
+                        <span className="text-xl font-semibold min-w-0 truncate">{listing.title}</span>
                         <div className="flex gap-2 text-lg">
-                            <span>{listing.artist}</span>
+                            <span className='truncate'>{listing.artist}</span>
                             <span>•</span>
                             <span>{listing.year}</span>
                         </div>

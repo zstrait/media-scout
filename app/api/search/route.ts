@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleDiscogsSearch } from "@/app/lib/discogs";
+import { handleSearch } from "@/app/lib/search";
 
 export async function GET(request: NextRequest) {
     const query = request.nextUrl.searchParams.get('query');
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     if (!query) {
         return NextResponse.json({ error: "Empty Search Query" }, { status: 400 });
     }
-    const results = await handleDiscogsSearch(query, page);
+    const results = await handleSearch(query, page);
 
     return NextResponse.json(results, { headers: { 'Cache-Control': 'public, max-age=300' } });
 }
