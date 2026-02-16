@@ -57,7 +57,7 @@ export default function Page() {
 
     const leftColumnListings = listings.filter((_, index) => index % 2 === 0);
     const rightColumnListings = listings.filter((_, index) => index % 2 === 1);
-    const skeletons = Array(10).fill(0).map((_, i) => (<ListingCardSkeleton key={i} />));
+    const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} />));
     const totalPages = Math.ceil(totalItems / 20);
 
     return (
@@ -84,7 +84,7 @@ export default function Page() {
                     <div className="flex justify-between">
                         <div className="flex flex-col gap-8">
                             {isLoading
-                                ? skeletons.slice(0, 5)
+                                ? skeletons.slice(0, 10)
                                 : leftColumnListings.map((listing) => (
                                     <ListingCard key={listing.id} listing={listing} />
                                 ))
@@ -92,7 +92,7 @@ export default function Page() {
                         </div>
                         <div className="flex flex-col gap-8">
                             {isLoading
-                                ? skeletons.slice(5, 10)
+                                ? skeletons.slice(10, 20)
                                 : rightColumnListings.map((listing) => (
                                     <ListingCard key={listing.id} listing={listing} slideDirection="left" />
                                 ))
