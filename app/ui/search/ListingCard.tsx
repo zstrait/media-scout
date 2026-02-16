@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Listing } from '../../lib/types';
@@ -56,7 +57,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
         >
             <div
                 onClick={handleToggle}
-                className="w-[695px] h-[195px] relative z-20 bg-[#343333] flex border border-gray-800 items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-gray-700 hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"
+                className="w-[695px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"
             >
                 {listing.cover ? (
                     <Image
