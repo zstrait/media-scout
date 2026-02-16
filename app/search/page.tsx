@@ -51,56 +51,60 @@ export default function Page() {
     return (
         <>
             <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between p-4 pb-0 font-mono'>
-                <div className="flex flex-col gap-6">
-                    <header className='flex justify-between items-center'>
-                        <Link href='/'>Home</Link>
-                        <SearchBar placeholder='Search...' />
-                        <div className='flex justify-center gap-8 '>
-                            <button className="btn-1">darkmode</button>
-                            <button className="btn-1">account</button>
-                        </div>
-                    </header>
+                <header className='flex justify-between items-center pb-4'>
+                    <Link href='/'>Home</Link>
+                    <SearchBar placeholder='Search...' />
+                    <div className='flex justify-center gap-8 '>
+                        <button className="btn-1">darkmode</button>
+                        <button className="btn-1">account</button>
+                    </div>
+                </header>
 
-                    <div className="flex justify-between border-t border-dashed p-6">
+                <div className="flex flex-col h-full overflow-scroll px-3">
+                    {/* Top bar */}
+                    <div className="flex justify-between border-t border-dashed p-6 bg-[#1E1E1E]">
                         <span className="underline underline-offset-6 font-bold text-2xl">{totalItems.toLocaleString('en-us')} Results</span>
                         <div className="flex justify-center items-center gap-8 ">
                             <button className="btn-1">filter</button>
                             <button className="btn-1">sort</button>
                         </div>
                     </div>
-                </div>
 
-                <div className="flex h-full overflow-scroll justify-between px-3">
-                    <div className="flex flex-col gap-8">
-                        {leftColumnListings.map((listing) => (
-                            <ListingCard key={listing.id} listing={listing} />
-                        ))}
+                    {/* Listings */}
+                    <div className="flex justify-between">
+                        <div className="flex flex-col gap-8">
+                            {leftColumnListings.map((listing) => (
+                                <ListingCard key={listing.id} listing={listing} />
+                            ))}
+                        </div>
+                        <div className="flex flex-col gap-8">
+                            {rightColumnListings.map((listing) => (
+                                <ListingCard key={listing.id} listing={listing} slideDirection="left" />
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex flex-col gap-8">
-                        {rightColumnListings.map((listing) => (
-                            <ListingCard key={listing.id} listing={listing} slideDirection="left" />
-                        ))}
+
+                    {/* Pagination Controls */}
+                    <div className="flex justify-center items-center gap-4 py-4 pb-4">
+                        <button
+                            disabled={page === 1}
+                            onClick={() => router.push(createPageURL(page - 1))}
+                            className="px-4 py-2 bg-gray-700 rounded-2xl disabled:opacity-50 hover:bg-gray-600 transition-colors"
+                        >
+                            Prev
+                        </button>
+
+                        <span className="font-bold">Page {page}</span>
+
+                        <button
+                            onClick={() => router.push(createPageURL(page + 1))}
+                            className="px-4 py-2 bg-gray-700 rounded-2xl hover:bg-gray-600 transition-colors"
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
-                {/* Pagination Controls */}
-                <div className="flex justify-center items-center gap-4 py-4 pb-4">
-                    <button
-                        disabled={page === 1}
-                        onClick={() => router.push(createPageURL(page - 1))}
-                        className="px-4 py-2 bg-gray-700 rounded-2xl disabled:opacity-50 hover:bg-gray-600 transition-colors b"
-                    >
-                        Prev
-                    </button>
 
-                    <span className="font-bold">Page {page}</span>
-
-                    <button
-                        onClick={() => router.push(createPageURL(page + 1))}
-                        className="px-4 py-2 bg-gray-700 rounded-2xl hover:bg-gray-600 transition-colors"
-                    >
-                        Next
-                    </button>
-                </div>
 
             </div>
         </>
