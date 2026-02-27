@@ -61,7 +61,8 @@ export function mapDiscogListingData(item: DiscogsItem): Listing {
         condition: 'Pre-Owned',
         price: 0,
         source: 'Discogs',
-        sourceLink: listingsURL
+        sourceLink: listingsURL,
+        postedDate: 'N/A'
     }
 }
 

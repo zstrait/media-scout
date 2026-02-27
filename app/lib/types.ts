@@ -11,7 +11,7 @@ export interface Listing {
     source: 'Discogs' | 'eBay',
     sourceLink: string,
     postedDate?: string,
-    // isHearted: boolean
+    isHearted?: boolean
 }
 
 export interface SearchResults {

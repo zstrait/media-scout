@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Listing } from '../../lib/types';
 
+import { HoverCard, ActionIcon, Text } from '@mantine/core';
+import { Info, Heart } from 'lucide-react';
+
 interface ListingCardProps {
     listing: Listing,
     slideDirection?: 'left' | 'right';
@@ -13,6 +16,9 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
     const [isOpen, setIsOpen] = useState(false);
     const [zIndex, setZIndex] = useState('z-auto');
     const wrapperRef = useRef<HTMLDivElement>(null);
+
+    const [isHearted, setIsHearted] = useState(listing.isHearted ? listing.isHearted : false);
+    const [popping, setPopping] = useState(false);
 
 
     const handleClose = () => {
@@ -30,6 +36,15 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
             setIsOpen(true);
         }
     };
+
+    const handleHeartToggle = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        if (!isHearted) {
+            setPopping(true);
+            setTimeout(() => setPopping(false), 300);
+        }
+        setIsHearted(!isHearted);
+    }
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -89,31 +104,40 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     </div>
                 </div>
                 <div className="flex items-center">
-                    <span className="text-3xl text-lime-600 px-8 font-semibold">${listing.price.toFixed(2)}</span>
+                    <span className="text-3xl text-lime-600 pr-12 pt-6 font-semibold">${listing.price.toFixed(2)}</span>
                 </div>
-                <div className="flex flex-col justify-between py-2">
-                    <button
-                        className="border px-3 py-1.5 rounded-3xl hover:bg-white/10 transition-colors"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                        }}
-                    >
-                        ♥
-                    </button>
-                    <button
-                        className="border px-3 py-1.5 rounded-3xl hover:bg-white/10 transition-colors"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                        }}
-                    >
-                        i
-                    </button>
+                <div className="flex flex-col justify-between pt-2 pb-1 pr-1">
+                    <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop' : ''} variant='transparent' color='gray' size='lg'>
+                        {isHearted ? (
+                            <Heart size={36} strokeWidth={1.5} color="#b52446" fill="#D92C54" />
+                        ) : (
+                            <Heart size={36} strokeWidth={1.7} />
+                        )}
+                    </ActionIcon>
+
+                    <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg" >
+                        <HoverCard.Target>
+                            <ActionIcon variant='transparent' color='gray' size='lg' mt={12}>
+                                <Info size={30} strokeWidth={1.5} />
+                            </ActionIcon>
+                        </HoverCard.Target>
+                        <HoverCard.Dropdown bg='#2a2a2a' py='6' pl='15' style={{ border: '1px solid #444', borderRadius: '10px' }}>
+                            {listing.source === 'Discogs' ? (
+                                <Text size="lg"><b>Source:</b> {listing.source}</Text>
+                            ) : (
+                                <>
+                                    <Text size="lg"><b>Source:</b> {listing.source}</Text>
+                                    <Text size="lg"><b>Posted:</b> {listing.postedDate}</Text>
+                                </>
+                            )}
+                        </HoverCard.Dropdown>
+                    </HoverCard>
                 </div>
             </div>
 
             {/* Slide menu */}
             <div
-                className={`absolute top-0 h-full bg-gray-700 border-gray-600 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
+                className={`absolute top-0 h-full bg-[#343e49] border-gray-600 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
                     ${menuPositionClass}
                     ${isOpen ? `w-[340px] ${translateClass}` : `w-[340px] translate-x-0 opacity-0 pointer-events-none`}
                 `}

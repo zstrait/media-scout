@@ -126,6 +126,7 @@ export function mapEbayListingData(item: ebayItem, itemDetails: ebayItemDetails)
     const artist = getDetail('Artist', itemDetails);
     const year = getDetail('Release Year', itemDetails);
     const format = getDetail('Format', itemDetails);
+    const postedDate = new Date(item.itemCreationDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })
 
     return {
         id: item.itemId,
@@ -138,7 +139,7 @@ export function mapEbayListingData(item: ebayItem, itemDetails: ebayItemDetails)
         price: Number(item.price.value),
         source: 'eBay',
         sourceLink: item.itemWebUrl,
-        postedDate: item.itemCreationDate
+        postedDate: postedDate
     }
 }
 
