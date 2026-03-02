@@ -60,7 +60,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
     }, [isOpen]);
 
     const isRight = slideDirection === 'right';
-    const menuPositionClass = isRight ? 'right-0 rounded-r-3xl rounded-l-md border-l-0 pl-[60px]' : 'left-0 rounded-l-3xl rounded-r-md border-r-0 pr-[60px]';
+    const menuPositionClass = isRight ? 'right-0 rounded-r-3xl rounded-l-md border-l-0 pl-[28px]' : 'left-0 rounded-l-3xl rounded-r-md border-r-0 pr-[28px]';
     const translateClass = isRight
         ? (isOpen ? 'translate-x-[275px]' : 'translate-x-0')
         : (isOpen ? '-translate-x-[275px]' : 'translate-x-0');
@@ -88,56 +88,67 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     </div>
                 )}
 
-                <div className="flex flex-col flex-1 justify-between py-2 min-w-0">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-xl font-semibold min-w-0 truncate">{listing.title}</span>
-                        <div className="flex gap-2 text-lg">
+                {/* Card Details */}
+                <div className='flex flex-col w-[372px] justify-between py-1'>
+                    {/* Title, Artist & Year, Heart button */}
+                    <div className='flex flex-col gap-0'>
+                        <div className="flex flex-1 justify-between min-w-0 items-center pr-1">
+                            <span className="text-[20px] w-[300px] font-semibold min-w-0 truncate">{listing.title}</span>
+                            <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop' : ''} variant='transparent' color='gray' size='lg'>
+                                {isHearted ? (
+                                    <Heart size={36} strokeWidth={1.5} color="#b52446" fill="#D92C54" />
+                                ) : (
+                                    <Heart size={36} strokeWidth={1.7} />
+                                )}
+                            </ActionIcon>
+                        </div>
+
+                        <div className="flex gap-2 text-[17px] w-[320] whitespace-nowrap">
                             <span className='truncate'>{listing.artist}</span>
                             <span>•</span>
                             <span>{listing.year}</span>
                         </div>
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <span>{listing.format}</span>
-                        <span className='bg-[#44444E] px-2 rounded-xl shadow-md'>{listing.condition}</span>
+
+                    {/* Price */}
+                    <span className="text-3xl text-lime-600 font-semibold self-start pl-54" style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.3)' }}>
+                        ${listing.price.toFixed(2)}
+                    </span>
+
+                    {/* Format, Condition, Info */}
+                    <div className="w-full flex justify-between items-end pr-1">
+                        <div className="flex gap-2 items-center pb-1">
+                            <span>{listing.format}</span>
+                            <span className='bg-[#44444E] px-2 rounded-xl shadow-md'>{listing.condition}</span>
+                        </div>
+
+                        <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg">
+                            <HoverCard.Target>
+                                <ActionIcon variant='transparent' color='gray' size='lg' mt={12} className='self-end'>
+                                    <Info size={30} strokeWidth={1.5} />
+                                </ActionIcon>
+                            </HoverCard.Target>
+                            <HoverCard.Dropdown bg='#2a2a2a' py='6' pl='15' style={{ border: '1px solid #444', borderRadius: '10px' }}>
+                                {listing.source === 'Discogs' ? (
+                                    <Text size="lg"><b>Source:</b> {listing.source}</Text>
+                                ) : (
+                                    <>
+                                        <Text size="lg"><b>Source:</b> {listing.source}</Text>
+                                        <Text size="lg"><b>Posted:</b> {listing.postedDate}</Text>
+                                    </>
+                                )}
+                            </HoverCard.Dropdown>
+                        </HoverCard>
                     </div>
                 </div>
-                <div className="w-[172px] flex flex-col justify-between pt-2 pb-1 pr-1">
-                    <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop self-end' : 'self-end'} variant='transparent' color='gray' size='lg'>
-                        {isHearted ? (
-                            <Heart size={36} strokeWidth={1.5} color="#b52446" fill="#D92C54" />
-                        ) : (
-                            <Heart size={36} strokeWidth={1.7} />
-                        )}
-                    </ActionIcon>
 
-                    <span className="text-3xl text-lime-600  pt-6 font-semibold self-start">${listing.price.toFixed(2)}</span>
-
-                    <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg">
-                        <HoverCard.Target>
-                            <ActionIcon variant='transparent' color='gray' size='lg' mt={12} className='self-end'>
-                                <Info size={30} strokeWidth={1.5} />
-                            </ActionIcon>
-                        </HoverCard.Target>
-                        <HoverCard.Dropdown bg='#2a2a2a' py='6' pl='15' style={{ border: '1px solid #444', borderRadius: '10px' }}>
-                            {listing.source === 'Discogs' ? (
-                                <Text size="lg"><b>Source:</b> {listing.source}</Text>
-                            ) : (
-                                <>
-                                    <Text size="lg"><b>Source:</b> {listing.source}</Text>
-                                    <Text size="lg"><b>Posted:</b> {listing.postedDate}</Text>
-                                </>
-                            )}
-                        </HoverCard.Dropdown>
-                    </HoverCard>
-                </div>
             </div>
 
             {/* Slide menu */}
             <div
-                className={`absolute top-0 h-full bg-[#343e49] border-gray-600 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
+                className={`absolute top-0 h-full bg-[#3a424b] border-gray-600/80 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
                     ${menuPositionClass}
-                    ${isOpen ? `w-[340px] ${translateClass}` : `w-[340px] translate-x-0 opacity-0 pointer-events-none`}
+                    ${isOpen ? `w-[300px] ${translateClass}` : `w-[300px] translate-x-0 opacity-0 pointer-events-none`}
                 `}
             >
                 <span className="text-2xl text-gray font-semibold px-4 text-center">Open Original Listing?</span>

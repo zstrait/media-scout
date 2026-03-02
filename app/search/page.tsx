@@ -75,8 +75,8 @@ export default function Page() {
                 >
 
                     {/* Listings */}
-                    <div className="flex justify-end gap-6 pl-1">
-                        <div className="sticky top-0 pt-2 self-start flex flex-col items-center">
+                    <div className="flex justify-between gap-5 pl-1">
+                        <div className="sticky top-0 pt-2 pr-2 self-start flex flex-col items-center">
                             <span className="underline underline-offset-6 font-bold pt-1 text-2xl pb-2">
                                 {totalItems.toLocaleString('en-us')} Results
                             </span>
