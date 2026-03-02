@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
 import { Pagination, Divider } from '@mantine/core';
+
 import { Listing } from "../lib/types";
 import ListingCard from "../ui/search/ListingCard";
 import SearchHeader from '../ui/search/SearchHeader';
 import ListingCardSkeleton from '../ui/search/ListingCardSkeleton';
+import SearchMenu from '../ui/search/SearchMenu';
 
 export default function Page() {
     const [listings, setListings] = useState<Listing[]>([]);
@@ -15,7 +17,7 @@ export default function Page() {
     const query = searchParams.get('query');
     const router = useRouter();
     const page = Number(searchParams.get('page')) || 1;
-    
+
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
@@ -61,28 +63,27 @@ export default function Page() {
     const totalPages = Math.ceil(totalItems / 20);
 
     return (
-        <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between p-4 pb-0 font-mono'>
-            
+        <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between py-4 pr-4 pb-0 font-mono'>
+
             <SearchHeader />
             <Divider my="sm" variant="dashed" />
 
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll px-3">
-                <div 
+                <div
                     className="flex flex-col"
                     style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
                 >
-                    {/* Top bar */}
-                    <div className="flex justify-between p-4 pt-2 bg-[#1E1E1E]">
-                        <span className="underline underline-offset-6 font-bold text-2xl">{totalItems.toLocaleString('en-us')} Results</span>
-                        <div className="flex justify-center items-center gap-8 ">
-                            <button className="btn-1">filter</button>
-                            <button className="btn-1">sort</button>
-                        </div>
-                    </div>
 
                     {/* Listings */}
-                    <div className="flex justify-between">
-                        <div className="flex flex-col gap-8">
+                    <div className="flex justify-end gap-6 pl-1">
+                        <div className="sticky top-0 pt-2 self-start flex flex-col items-center">
+                            <span className="underline underline-offset-6 font-bold pt-1 text-2xl pb-2">
+                                {totalItems.toLocaleString('en-us')} Results
+                            </span>
+                            <SearchMenu />
+                        </div>
+
+                        <div className="flex flex-col gap-6 pt-4">
                             {isLoading
                                 ? skeletons.slice(0, 10)
                                 : leftColumnListings.map((listing) => (
@@ -90,7 +91,7 @@ export default function Page() {
                                 ))
                             }
                         </div>
-                        <div className="flex flex-col gap-8">
+                        <div className="flex flex-col gap-6 pt-4">
                             {isLoading
                                 ? skeletons.slice(10, 20)
                                 : rightColumnListings.map((listing) => (

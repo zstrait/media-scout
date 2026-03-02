@@ -72,7 +72,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
         >
             <div
                 onClick={handleToggle}
-                className="w-[695px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"
+                className="w-[590px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"
             >
                 {listing.cover ? (
                     <Image
@@ -97,17 +97,13 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                             <span>{listing.year}</span>
                         </div>
                     </div>
-                    <div className="flex gap-2 text-lg">
+                    <div className="flex gap-2 items-center">
                         <span>{listing.format}</span>
-                        <span>•</span>
-                        <span>{listing.condition}</span>
+                        <span className='bg-[#44444E] px-2 rounded-xl shadow-md'>{listing.condition}</span>
                     </div>
                 </div>
-                <div className="flex items-center">
-                    <span className="text-3xl text-lime-600 pr-12 pt-6 font-semibold">${listing.price.toFixed(2)}</span>
-                </div>
-                <div className="flex flex-col justify-between pt-2 pb-1 pr-1">
-                    <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop' : ''} variant='transparent' color='gray' size='lg'>
+                <div className="w-[172px] flex flex-col justify-between pt-2 pb-1 pr-1">
+                    <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop self-end' : 'self-end'} variant='transparent' color='gray' size='lg'>
                         {isHearted ? (
                             <Heart size={36} strokeWidth={1.5} color="#b52446" fill="#D92C54" />
                         ) : (
@@ -115,9 +111,11 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                         )}
                     </ActionIcon>
 
-                    <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg" >
+                    <span className="text-3xl text-lime-600  pt-6 font-semibold self-start">${listing.price.toFixed(2)}</span>
+
+                    <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg">
                         <HoverCard.Target>
-                            <ActionIcon variant='transparent' color='gray' size='lg' mt={12}>
+                            <ActionIcon variant='transparent' color='gray' size='lg' mt={12} className='self-end'>
                                 <Info size={30} strokeWidth={1.5} />
                             </ActionIcon>
                         </HoverCard.Target>
