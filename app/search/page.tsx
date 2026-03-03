@@ -94,8 +94,8 @@ export default function Page() {
                     </div>
 
                     {/* Listings */}
-                    <div className="flex flex-col justify-between gap-5 pl-5 w-full">
-                        <span className="underline underline-offset-6 font-bold text-2xl  self-start">
+                    <div className="flex flex-col justify-between gap-4 pl-5 pt-1 w-full">
+                        <span className="underline underline-offset-6 pl-3 font-bold text-2xl self-start opacity-80">
                             {totalItems.toLocaleString('en-us')} Results
                         </span>
 

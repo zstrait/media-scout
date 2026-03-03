@@ -2,7 +2,7 @@
 
 import { Button, ActionIcon, Text, Divider, TextInput, Stack, Group, SimpleGrid } from '@mantine/core';
 import { FilterConditions } from '@/app/lib/types';
-import { PanelLeftClose, PanelRightClose } from 'lucide-react';
+import { PanelLeftClose, PanelRightClose, ArrowDownUp, CircleDollarSign,  } from 'lucide-react';
 
 interface SearchMenuProps {
     filters: FilterConditions,
@@ -27,7 +27,7 @@ export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen 
     }
 
     return (
-            <div className='w-[232px] p-3 border border-l-0 border-[#3d3d3d] rounded-xl rounded-l-none'>
+            <div className='w-[232px] p-3  bg-[#242424] drop-shadow-lg border-3 border-l-0 border-[#3d3d3daf] rounded-xl rounded-l-none'>
                 <div className='flex items-center justify-between pb-3'>
                     <Text fw={700} c="dimmed" style={{ fontSize: '20px' }}>
                         Sort & Filter
@@ -86,7 +86,7 @@ export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen 
                                 radius="sm"
                                 classNames={{
                                     root: "flex-1",
-                                    input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                    input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
                                 }}
 
                             />
@@ -99,7 +99,7 @@ export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen 
                                 radius="sm"
                                 classNames={{
                                     root: "flex-1",
-                                    input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                    input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
                                 }}
 
                             />
@@ -153,7 +153,7 @@ export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen 
                                 radius="sm"
                                 classNames={{
                                     root: "flex-1",
-                                    input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                    input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
                                 }}
                             />
                             <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
@@ -165,7 +165,7 @@ export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen 
                                 radius="sm"
                                 classNames={{
                                     root: "flex-1",
-                                    input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                    input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
                                 }}
 
                             />
