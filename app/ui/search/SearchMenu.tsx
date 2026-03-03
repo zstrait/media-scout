@@ -1,71 +1,60 @@
-import { useState } from 'react';
-import { Text, Divider, UnstyledButton, TextInput, Stack, Group, SimpleGrid } from '@mantine/core';
+'use-client'
 
-export default function SearchMenu() {
-    const [selectedSort, setSelectedSort] = useState('Best Match');
-    const [priceMin, setPriceMin] = useState('');
-    const [priceMax, setPriceMax] = useState('');
-    const [selectedFormat, setSelectedFormat] = useState<string[]>([]);
-    const [selectedPlatform, setSelectedPlatform] = useState<string[]>([]);
-    const [selectedCondition, setSelectedCondition] = useState<string[]>([]);
+import { Button, Text, Divider, TextInput, Stack, Group, SimpleGrid } from '@mantine/core';
+import { FilterConditions } from '@/app/lib/types';
 
+interface SearchMenuProps {
+    filters: FilterConditions,
+    onFilterChange: (newFilters: FilterConditions) => void;
+}
+
+export default function SearchMenu({ filters, onFilterChange }: SearchMenuProps) {
     const sortOptions = ['Best Match', 'Price: Low to High', 'Price: High to Low'];
-    const formatOptions = ['Vinyl', 'CDs', 'Cassette', 'Other'];
+    const formatOptions = ['Vinyl', 'CD', 'Cassette', 'Other'];
     const platformOptions = ['eBay', 'Discogs'];
-    const conditionOptions = ['New', 'Used', 'Other'];
 
-    const toggleItem = (value: string, list: string[], setList: (v: string[]) => void) => {
-        setList(list.includes(value) ? list.filter(i => i !== value) : [...list, value]);
-    };
+    const toggleItem = (category: 'format' | 'platform' | 'condition', value: string) => {
+        const currentCategory = filters[category];
+        const isCurrentlySelected = currentCategory.includes(value);
+        const updatedCategory = isCurrentlySelected
+            ? currentCategory.filter(item => item !== value)
+            : [...currentCategory, value];
 
-    const btnStyle = (active: boolean): React.CSSProperties => ({
-        backgroundColor: active ? '#4a4a4a' : '#1E1E1E',
-        color: active ? '#fff' : '#6b7280',
-        border: `1px solid ${active ? '#666' : '#383838'}`,
-        borderRadius: '6px',
-        padding: '7px 12px',
-        fontFamily: 'monospace',
-        fontSize: '14px',
-        textAlign: 'center',
-        cursor: 'pointer',
-        transition: 'all 120ms ease',
-        width: '100%',
-    });
-
-    const inputStyles = {
-        root: { flex: 1 },
-        input: {
-            backgroundColor: '#1E1E1E',
-            border: '1px solid #383838',
-            color: '#e5e7eb',
-            textAlign: 'center' as const,
-            fontFamily: 'monospace',
-            fontSize: '14px',
-        },
-    };
+        onFilterChange({ ...filters, [category]: updatedCategory });
+    }
 
     return (
-        <div className='pt-4'>
+        <div className='w-[200px]'>
             <Stack gap={14}>
-
                 <Stack gap={6}>
                     <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                         Sort
                     </Text>
                     <Stack gap={6}>
-                        {sortOptions.map(s => (
-                            <UnstyledButton
-                                key={s}
-                                onClick={() => setSelectedSort(s)}
-                                style={btnStyle(selectedSort === s)}
-                            >
-                                {s}
-                            </UnstyledButton>
-                        ))}
+                        {sortOptions.map(s => {
+                            const isActive = filters.sorting === s;
+                            return (
+                                <Button
+                                    key={s}
+                                    onClick={() => onFilterChange({ ...filters, sorting: s })}
+                                    variant="default"
+                                    fullWidth
+                                    radius="md"
+                                    size="sm"
+                                    ff="monospace"
+                                    bg={isActive ? '#4a4a4a' : '#1E1E1E'}
+                                    c={isActive ? '#fff' : '#6b7280'}
+                                    bd={`1px solid ${isActive ? '#666' : '#383838'}`}
+                                    style={{ transition: 'all 120ms ease' }}
+                                >
+                                    {s}
+                                </Button>
+                            );
+                        })}
                     </Stack>
                 </Stack>
 
-                 <Divider color="#383838" />
+                <Divider color="#383838" />
 
                 {/* Price */}
                 <Stack gap={6}>
@@ -75,20 +64,28 @@ export default function SearchMenu() {
                     <Group gap={8} wrap="nowrap" align="center">
                         <TextInput
                             placeholder="MIN"
-                            value={priceMin}
-                            onChange={e => setPriceMin(e.currentTarget.value)}
+                            value={filters.priceMin || ''}
+                            onChange={(e) => { onFilterChange({ ...filters, priceMin: Number(e.currentTarget.value) }) }}
                             size="xs"
                             radius="sm"
-                            styles={inputStyles}
+                            classNames={{
+                                root: "flex-1",
+                                input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                            }}
+
                         />
                         <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
                         <TextInput
                             placeholder="MAX"
-                            value={priceMax}
-                            onChange={e => setPriceMax(e.currentTarget.value)}
+                            value={filters.priceMax || ''}
+                            onChange={(e) => { onFilterChange({ ...filters, priceMax: Number(e.currentTarget.value) }) }}
                             size="xs"
                             radius="sm"
-                            styles={inputStyles}
+                            classNames={{
+                                root: "flex-1",
+                                input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                            }}
+
                         />
                     </Group>
                 </Stack>
@@ -101,35 +98,92 @@ export default function SearchMenu() {
                         Format
                     </Text>
                     <SimpleGrid cols={2} spacing={6}>
-                        {formatOptions.map(f => (
-                            <UnstyledButton
-                                key={f}
-                                onClick={() => toggleItem(f, selectedFormat, setSelectedFormat)}
-                                style={btnStyle(selectedFormat.includes(f))}
-                            >
-                                {f}
-                            </UnstyledButton>
-                        ))}
+                        {formatOptions.map(f => {
+                            const isActive = filters.format.includes(f);
+                            return (
+                                <Button
+                                    key={f}
+                                    onClick={() => toggleItem('format', f)}
+                                    variant="default"
+                                    fullWidth
+                                    radius="md"
+                                    size="sm"
+                                    ff="monospace"
+                                    fz={12}
+                                    bg={isActive ? '#4a4a4a' : '#1E1E1E'}
+                                    c={isActive ? '#fff' : '#6b7280'}
+                                    bd={`1px solid ${isActive ? '#666' : '#383838'}`}
+                                    style={{ transition: 'all 120ms ease' }}
+                                >
+                                    {f}
+                                </Button>
+                            );
+                        })}
                     </SimpleGrid>
+                </Stack>
+
+                <Divider color="#383838" />
+
+                <Stack gap={6}>
+                    <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
+                        Release Year
+                    </Text>
+                    <Group gap={8} wrap="nowrap" align="center">
+                        <TextInput
+                            placeholder="MIN"
+                            value={filters.yearMin || ''}
+                            onChange={(e) => { onFilterChange({ ...filters, yearMin: Number(e.currentTarget.value) }) }}
+                            size="xs"
+                            radius="sm"
+                            classNames={{
+                                root: "flex-1",
+                                input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                            }}
+                        />
+                        <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
+                        <TextInput
+                            placeholder="MAX"
+                            value={filters.yearMax || ''}
+                            onChange={(e) => { onFilterChange({ ...filters, yearMax: Number(e.currentTarget.value) }) }}
+                            size="xs"
+                            radius="sm"
+                            classNames={{
+                                root: "flex-1",
+                                input: "bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                            }}
+
+                        />
+                    </Group>
                 </Stack>
 
                 <Divider color="#383838" />
 
                 {/* Platform */}
                 <Stack gap={6}>
-                    <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
+                    <Text size="s" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                         Platform
                     </Text>
-                    <Group gap={6} grow>
-                        {platformOptions.map(p => (
-                            <UnstyledButton
-                                key={p}
-                                onClick={() => toggleItem(p, selectedPlatform, setSelectedPlatform)}
-                                style={btnStyle(selectedPlatform.includes(p))}
-                            >
-                                {p}
-                            </UnstyledButton>
-                        ))}
+                    <Group grow wrap="nowrap" gap={6}>
+                        {platformOptions.map(p => {
+                            const isActive = filters.platform.includes(p);
+                            return (
+                                <Button
+                                    key={p}
+                                    onClick={() => toggleItem('platform', p)}
+                                    variant="default"
+                                    fullWidth
+                                    radius="md"
+                                    size="sm"
+                                    ff="monospace"
+                                    bg={isActive ? '#4a4a4a' : '#1E1E1E'}
+                                    c={isActive ? '#fff' : '#6b7280'}
+                                    bd={`1px solid ${isActive ? '#666' : '#383838'}`}
+                                    style={{ transition: 'all 120ms ease' }}
+                                >
+                                    {p}
+                                </Button>
+                            );
+                        })}
                     </Group>
                 </Stack>
 
@@ -140,17 +194,40 @@ export default function SearchMenu() {
                     <Text size="xs" fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                         Condition
                     </Text>
-                    <Group gap={6} grow>
-                        {conditionOptions.map(c => (
-                            <UnstyledButton
-                                key={c}
-                                onClick={() => toggleItem(c, selectedCondition, setSelectedCondition)}
-                                style={btnStyle(selectedCondition.includes(c))}
+
+                    <Stack gap={6}>
+                        <Group grow wrap="nowrap" gap={6}>
+                            <Button
+                                onClick={() => toggleItem('condition', 'New')}
+                                variant="default"
+                                fullWidth
+                                radius="md"
+                                size="sm"
+                                ff="monospace"
+                                bg={filters.condition.includes('New') ? '#4a4a4a' : '#1E1E1E'}
+                                c={filters.condition.includes('New') ? '#fff' : '#6b7280'}
+                                bd={`1px solid ${filters.condition.includes('New') ? '#666' : '#383838'}`}
+                                style={{ transition: 'all 120ms ease' }}
                             >
-                                {c}
-                            </UnstyledButton>
-                        ))}
-                    </Group>
+                                New
+                            </Button>
+
+                            <Button
+                                onClick={() => toggleItem('condition', 'Used')}
+                                variant="default"
+                                fullWidth
+                                radius="md"
+                                size="sm"
+                                ff="monospace"
+                                bg={filters.condition.includes('Used') ? '#4a4a4a' : '#1E1E1E'}
+                                c={filters.condition.includes('Used') ? '#fff' : '#6b7280'}
+                                bd={`1px solid ${filters.condition.includes('Used') ? '#666' : '#383838'}`}
+                                style={{ transition: 'all 120ms ease' }}
+                            >
+                                Used
+                            </Button>
+                        </Group>
+                    </Stack>
                 </Stack>
 
             </Stack>

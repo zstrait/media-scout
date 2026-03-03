@@ -1,4 +1,3 @@
-
 export interface Listing {
     id: number | string,
     cover?: string,
@@ -17,4 +16,15 @@ export interface Listing {
 export interface SearchResults {
     listings: Listing[],
     totalItems: number
+}
+
+export interface FilterConditions {
+    sorting: string,
+    priceMin?: number,
+    priceMax?: number,
+    format: string[],
+    yearMin?: number,
+    yearMax?: number
+    platform: string[],
+    condition: string[]
 }

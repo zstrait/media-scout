@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
 import { Pagination, Divider } from '@mantine/core';
 
-import { Listing } from "../lib/types";
+import { Listing, FilterConditions } from "../lib/types";
 import ListingCard from "../ui/search/ListingCard";
 import SearchHeader from '../ui/search/SearchHeader';
 import ListingCardSkeleton from '../ui/search/ListingCardSkeleton';
 import SearchMenu from '../ui/search/SearchMenu';
+
+import { processResults } from '../lib/search';
 
 export default function Page() {
     const [listings, setListings] = useState<Listing[]>([]);
@@ -21,6 +23,15 @@ export default function Page() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+
+    const [activeFilters, setActiveFilters] = useState<FilterConditions>({
+        sorting: 'Best Match',
+        priceMin: undefined,
+        priceMax: undefined,
+        format: [],
+        platform: [],
+        condition: []
+    });
 
     const createPageURL = (pageNumber: number) => {
         const params = new URLSearchParams(searchParams);
@@ -57,8 +68,12 @@ export default function Page() {
 
     }, [query, page]);
 
-    const leftColumnListings = listings.filter((_, index) => index % 2 === 0);
-    const rightColumnListings = listings.filter((_, index) => index % 2 === 1);
+    const displayedListings = useMemo(() => {
+        return processResults(listings, activeFilters);
+    }, [activeFilters, listings]);
+
+    const leftColumnListings = displayedListings.filter((_, index) => index % 2 === 0);
+    const rightColumnListings = displayedListings.filter((_, index) => index % 2 === 1);
     const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} />));
     const totalPages = Math.ceil(totalItems / 20);
 
@@ -70,50 +85,53 @@ export default function Page() {
 
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll px-3">
                 <div
-                    className="flex flex-col"
+                    className="flex"
                     style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
                 >
+                    <div className="sticky top-0 pl-2 pr-6 self-start flex flex-col pt-8">
+                        <SearchMenu filters={activeFilters} onFilterChange={setActiveFilters} />
+                    </div>
 
                     {/* Listings */}
-                    <div className="flex justify-between gap-5 pl-1">
-                        <div className="sticky top-0 pt-2 pr-2 self-start flex flex-col items-center">
-                            <span className="underline underline-offset-6 font-bold pt-1 text-2xl pb-2">
-                                {totalItems.toLocaleString('en-us')} Results
-                            </span>
-                            <SearchMenu />
-                        </div>
+                    <div className="flex flex-col justify-between gap-5 pl-1">
+                        <span className="underline underline-offset-6 font-bold text-2xl  self-start">
+                            {totalItems.toLocaleString('en-us')} Results
+                        </span>
 
-                        <div className="flex flex-col gap-6 pt-4">
-                            {isLoading
-                                ? skeletons.slice(0, 10)
-                                : leftColumnListings.map((listing) => (
-                                    <ListingCard key={listing.id} listing={listing} />
-                                ))
-                            }
+                        <div className='flex between gap-5'>
+                            <div className="flex flex-col gap-6">
+                                {isLoading
+                                    ? skeletons.slice(0, 10)
+                                    : leftColumnListings.map((listing) => (
+                                        <ListingCard key={listing.id} listing={listing} />
+                                    ))
+                                }
+                            </div>
+                            <div className="flex flex-col gap-6">
+                                {isLoading
+                                    ? skeletons.slice(10, 20)
+                                    : rightColumnListings.map((listing) => (
+                                        <ListingCard key={listing.id} listing={listing} slideDirection="left" />
+                                    ))
+                                }
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-6 pt-4">
-                            {isLoading
-                                ? skeletons.slice(10, 20)
-                                : rightColumnListings.map((listing) => (
-                                    <ListingCard key={listing.id} listing={listing} slideDirection="left" />
-                                ))
-                            }
+                        {/* Pagination Controls */}
+                        <div className="flex justify-center items-center py-8">
+                            <Pagination
+                                total={totalPages}
+                                value={page}
+                                siblings={1}
+                                onChange={(newPage) => {
+                                    router.push(createPageURL(newPage));
+                                }}
+                                color="gray"
+                                size="lg"
+                            />
                         </div>
                     </div>
 
-                    {/* Pagination Controls */}
-                    <div className="flex justify-center items-center py-8">
-                        <Pagination
-                            total={totalPages}
-                            value={page}
-                            siblings={1}
-                            onChange={(newPage) => {
-                                router.push(createPageURL(newPage));
-                            }}
-                            color="gray"
-                            size="lg"
-                        />
-                    </div>
+
                 </div>
             </div>
         </div>

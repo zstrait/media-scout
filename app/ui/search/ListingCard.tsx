@@ -111,15 +111,15 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     </div>
 
                     {/* Price */}
-                    <span className="text-3xl text-lime-600 font-semibold self-start pl-54" style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.3)' }}>
+                    <span className="text-3xl text-lime-600 font-semibold self-start pl-54" style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.25)' }}>
                         ${listing.price.toFixed(2)}
                     </span>
 
                     {/* Format, Condition, Info */}
                     <div className="w-full flex justify-between items-end pr-1">
-                        <div className="flex gap-2 items-center pb-1">
-                            <span>{listing.format}</span>
-                            <span className='bg-[#44444E] px-2 rounded-xl shadow-md'>{listing.condition}</span>
+                        <div className="flex gap-2 items-center pb-0.5">
+                            <span className='bg-[#44444E] px-2 rounded-xl shadow-md border border-[#39394195]'>{listing.format}</span>
+                            <span className='bg-[#44444E] px-2 rounded-xl shadow-md border border-[#39394195]'>{listing.condition}</span>
                         </div>
 
                         <HoverCard radius='md' width={listing.source === 'Discogs' ? 170 : 180} position="bottom" offset={2} withArrow arrowSize={14} shadow="lg">
