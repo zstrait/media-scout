@@ -10,9 +10,10 @@ import { Info, Heart } from 'lucide-react';
 interface ListingCardProps {
     listing: Listing,
     slideDirection?: 'left' | 'right';
+    isSidebarOpen: boolean
 }
 
-export default function ListingCard({ listing, slideDirection = 'right' }: ListingCardProps) {
+export default function ListingCard({ listing, slideDirection = 'right', isSidebarOpen }: ListingCardProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [zIndex, setZIndex] = useState('z-auto');
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -72,14 +73,13 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
         >
             <div
                 onClick={handleToggle}
-                className="w-[590px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"
-            >
+                className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} "w-[590px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"`}   >
                 {listing.cover ? (
                     <Image
                         src={listing.cover}
                         width={100}
                         height={100}
-                        className="w-40 h-40 rounded-2xl object-cover shadow-[0_8px_30px_rgb(0,0,0,0.3)]"
+                        className="w-40 h-40 rounded-2xl object-cover shadow-[0_8px_30px_rgb(0,0,0,0.3)] shrink-0"
                         alt={listing.title}
                     />
                 ) : (
@@ -89,7 +89,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                 )}
 
                 {/* Card Details */}
-                <div className='flex flex-col w-[372px] justify-between py-1'>
+                <div className={`${isSidebarOpen ? 'w-[372px]' : 'w-[470px]'} flex flex-col justify-between py-1 transition-all duration-300 ease-in-out`}>
                     {/* Title, Artist & Year, Heart button */}
                     <div className='flex flex-col gap-0'>
                         <div className="flex flex-1 justify-between min-w-0 items-center pr-1">
@@ -111,7 +111,10 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     </div>
 
                     {/* Price */}
-                    <span className="text-3xl text-lime-600 font-semibold self-start pl-54" style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.25)' }}>
+                    <span
+                        className={`text-3xl text-lime-600 font-semibold self-start ${isSidebarOpen ? 'pl-54' : 'pl-62'} transition-all duration-300 ease-in-out`}
+                        style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.25)' }}
+                    >
                         ${listing.price.toFixed(2)}
                     </span>
 
@@ -140,12 +143,12 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                             </HoverCard.Dropdown>
                         </HoverCard>
                     </div>
-                </div>
+                </div >
 
-            </div>
+            </div >
 
             {/* Slide menu */}
-            <div
+            < div
                 className={`absolute top-0 h-full bg-[#3a424b] border-gray-600/80 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
                     ${menuPositionClass}
                     ${isOpen ? `w-[300px] ${translateClass}` : `w-[300px] translate-x-0 opacity-0 pointer-events-none`}
@@ -156,7 +159,7 @@ export default function ListingCard({ listing, slideDirection = 'right' }: Listi
                     <a href={listing.sourceLink} target="_blank" className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">Yes</a>
                     <button onClick={() => setIsOpen(false)} className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">No</button>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }

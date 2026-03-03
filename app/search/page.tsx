@@ -23,6 +23,7 @@ export default function Page() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const [activeFilters, setActiveFilters] = useState<FilterConditions>({
         sorting: 'Best Match',
@@ -83,35 +84,35 @@ export default function Page() {
             <SearchHeader />
             <Divider my="sm" variant="dashed" />
 
-            <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll px-3">
+            <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll pr-3">
                 <div
                     className="flex"
                     style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
                 >
-                    <div className="sticky top-0 pl-2 pr-6 self-start flex flex-col pt-8">
-                        <SearchMenu filters={activeFilters} onFilterChange={setActiveFilters} />
+                    <div className={`sticky top-0 self-start flex flex-col pt-1 ${isSidebarOpen ? '' : 'translate-x-[-180px]  mr-[-180px]'} transition-all duration-300 ease-in-out`}>
+                        <SearchMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
                     </div>
 
                     {/* Listings */}
-                    <div className="flex flex-col justify-between gap-5 pl-1">
+                    <div className="flex flex-col justify-between gap-5 pl-5 w-full">
                         <span className="underline underline-offset-6 font-bold text-2xl  self-start">
                             {totalItems.toLocaleString('en-us')} Results
                         </span>
 
-                        <div className='flex between gap-5'>
-                            <div className="flex flex-col gap-6">
+                        <div className='flex justify-between gap-5 w-full'>
+                            <div className="flex flex-col gap-6 w-full items-end">
                                 {isLoading
                                     ? skeletons.slice(0, 10)
                                     : leftColumnListings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} />
+                                        <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} />
                                     ))
                                 }
                             </div>
-                            <div className="flex flex-col gap-6">
+                            <div className="flex flex-col gap-6 w-full items-end">
                                 {isLoading
                                     ? skeletons.slice(10, 20)
                                     : rightColumnListings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} slideDirection="left" />
+                                        <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} slideDirection="left" />
                                     ))
                                 }
                             </div>
