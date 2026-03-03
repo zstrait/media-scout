@@ -73,7 +73,7 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
         >
             <div
                 onClick={handleToggle}
-                className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} "w-[590px] h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"`}   >
+                className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"`}   >
                 {listing.cover ? (
                     <Image
                         src={listing.cover}
@@ -112,7 +112,7 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
 
                     {/* Price */}
                     <span
-                        className={`text-3xl text-lime-600 font-semibold self-start ${isSidebarOpen ? 'pl-54' : 'pl-62'} transition-all duration-300 ease-in-out`}
+                        className={`text-3xl text-lime-600 font-semibold self-end ${isSidebarOpen ? 'pr-12' : 'pr-21'} transition-all duration-300 ease-in-out`}
                         style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.25)' }}
                     >
                         ${listing.price.toFixed(2)}

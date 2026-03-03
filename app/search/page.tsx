@@ -75,7 +75,7 @@ export default function Page() {
 
     const leftColumnListings = displayedListings.filter((_, index) => index % 2 === 0);
     const rightColumnListings = displayedListings.filter((_, index) => index % 2 === 1);
-    const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} />));
+    const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} isSidebarOpen={isSidebarOpen}/>));
     const totalPages = Math.ceil(totalItems / 20);
 
     return (

@@ -1,8 +1,8 @@
 import { Skeleton } from '@mantine/core';
 
-export default function ListingCardSkeleton() {
+export default function ListingCardSkeleton({ isSidebarOpen }: { isSidebarOpen: boolean }) {
     return (
-        <div className="w-[590px] h-[195px] bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl">
+        <div className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl`}>
             {/* Cover */}
             <Skeleton height={160} width={160} radius="xl" />
 
