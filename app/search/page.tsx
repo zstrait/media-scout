@@ -75,14 +75,14 @@ export default function Page() {
 
     const leftColumnListings = displayedListings.filter((_, index) => index % 2 === 0);
     const rightColumnListings = displayedListings.filter((_, index) => index % 2 === 1);
-    const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} isSidebarOpen={isSidebarOpen}/>));
+    const skeletons = Array(20).fill(0).map((_, i) => (<ListingCardSkeleton key={i} isSidebarOpen={isSidebarOpen} />));
     const totalPages = Math.ceil(totalItems / 20);
 
     return (
         <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between py-4 pr-4 pb-0 font-mono'>
 
             <SearchHeader />
-            <Divider my="sm" variant="dashed" />
+            <Divider my="sm" />
 
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll pr-3">
                 <div

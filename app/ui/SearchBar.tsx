@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation"
 
-export default function SearchBar({ placeholder }: { placeholder: string }) {
+export default function SearchBar({ placeholder, width = '' }: { placeholder: string, width?: string }) {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
@@ -21,7 +21,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
 
     return (
         <input
-            className='bg-gray-300 w-2xl px-8 py-4 rounded-2xl inset-shadow-sm/90 text-black font-semibold'
+            className={`bg-gray-300 w-${width}xl px-8 py-4 rounded-2xl inset-shadow-sm/90 text-black font-semibold`}
             placeholder={placeholder}
             defaultValue={searchParams.get('query')?.toString()}
             onKeyDown={(e) => {

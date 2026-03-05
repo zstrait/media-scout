@@ -2,10 +2,8 @@
 
 import Link from "next/link"
 import { Avatar } from '@mantine/core';
-import { House, Moon } from 'lucide-react';
-
+import { House, Moon, CircleUserRound } from 'lucide-react';
 import SearchBar from "../SearchBar";
-
 
 export default function SearchHeader() {
 
@@ -20,7 +18,9 @@ export default function SearchHeader() {
                 <SearchBar placeholder='Search...' />
                 <div className='flex justify-center gap-6 items-center'>
                     <Moon size={36} />
-                    <Avatar size="lg" />
+                    <Avatar size={42}>
+                        <CircleUserRound size={42} strokeWidth={1.5} />
+                    </Avatar>
                 </div>
             </header>
         </>

@@ -23,12 +23,12 @@ export default function Home() {
 
                 <div className='flex flex-col items-center gap-8 mb-4 pointer-events-auto'>
                     <div className="relative inline-block">
-                        <div className="absolute inset-0 translate-y-1.5 rounded-2xl bg-black/80 blur-xl scale-120" />
+                        <div className="absolute inset-0 translate-y-1.5 rounded-2xl bg-black/75 blur-xl scale-120" />
                         <h1 className="relative text-6xl pb-1 px-1 rounded-2xl ">
                             Media Scout
                         </h1>
                     </div>
-                    <SearchBar placeholder='Search for an album...' />
+                    <SearchBar placeholder='Search for an album...' width='2'/>
                 </div>
 
                 <footer className='flex justify-end pointer-events-auto'>
