@@ -35,7 +35,8 @@ export async function getDiscogsResults(query: string, page: number = 1): Promis
     });
 
     const response = await fetch(`${baseURL}?${params.toString()}`, {
-        headers: DISCOGS_HEADERS
+        headers: DISCOGS_HEADERS,
+        next: { revalidate: 0 }
     });
     if (!response.ok) {
         throw new Error("Error fetching Discogs Response Data");
@@ -73,9 +74,9 @@ export async function handleDiscogsSearch(query: string, page: number = 1): Prom
     const listingPromises = releases.results.map(async (item) => {
         const listing = mapDiscogListingData(item);
         const price = await getLowestPrice(item.id);
-        
-        listing.price = price || 0; 
-        
+
+        listing.price = price || 0;
+
         return listing;
     });
     const listings = await Promise.all(listingPromises);
@@ -90,7 +91,10 @@ export async function getReleaseStats(id: number): Promise<ReleaseStatistics> {
     const releaseId = id.toString();
     const url = `https://api.discogs.com/marketplace/stats/${releaseId}?curr_abbr=USD`;
 
-    const response = await fetch(url, {headers: DISCOGS_HEADERS});
+    const response = await fetch(url, {
+        headers: DISCOGS_HEADERS,
+        next: { revalidate: 0 }
+    });
     if (!response.ok) {
         console.error(`Discogs API Error: ${response.status} ${response.statusText}`);
         throw new Error(`Discogs Error: ${response.status}`);

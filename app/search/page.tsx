@@ -79,7 +79,7 @@ export default function Page() {
     const totalPages = Math.ceil(totalItems / 20);
 
     return (
-        <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between py-4 pr-4 pb-0 font-mono'>
+        <div key={`${query}-${page}`} className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between py-4 pr-4 pb-0 font-mono'>
 
             <SearchHeader />
             <Divider my="sm" />

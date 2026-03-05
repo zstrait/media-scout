@@ -53,7 +53,8 @@ async function getAccessToken(): Promise<string> {
         body: new URLSearchParams({
             grant_type: 'client_credentials',
             scope: 'https://api.ebay.com/oauth/api_scope'
-        }).toString()
+        }).toString(),
+        next: { revalidate: 0 }
     });
 
     if (!response.ok) {
@@ -83,7 +84,8 @@ export async function getEbayResults(query: string, page: number = 1): Promise<e
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
-        }
+        },
+        next: { revalidate: 0 }
     });
     if (!response.ok) {
         throw new Error(`Error Fetching eBay Results: ${response.status}`);
@@ -102,7 +104,8 @@ export async function getItemDetails(item_id: string): Promise<ebayItemDetails> 
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
-        }
+        },
+        next: { revalidate: 0 }
     });
     if (!response.ok) {
         throw new Error(`Error Fetching Item Details: ${response.status}`);
@@ -169,7 +172,8 @@ export async function getEbayItem(itemId: string): Promise<ebayItem> {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
-        }
+        },
+        next: { revalidate: 0 }
     });
     if (!response.ok) {
         throw new Error(`Error Fetching Item Details: ${response.status}`);
