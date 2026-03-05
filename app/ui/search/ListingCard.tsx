@@ -7,6 +7,8 @@ import { Listing } from '../../lib/types';
 import { HoverCard, ActionIcon, Text } from '@mantine/core';
 import { Info, Heart } from 'lucide-react';
 
+import SlideMenu from './SlideMenu';
+
 interface ListingCardProps {
     listing: Listing,
     slideDirection?: 'left' | 'right';
@@ -20,7 +22,6 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
 
     const [isHearted, setIsHearted] = useState(listing.isHearted ? listing.isHearted : false);
     const [popping, setPopping] = useState(false);
-
 
     const handleClose = () => {
         setIsOpen(false);
@@ -60,12 +61,6 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
         }
     }, [isOpen]);
 
-    const isRight = slideDirection === 'right';
-    const menuPositionClass = isRight ? 'right-0 rounded-r-3xl rounded-l-md border-l-0 pl-[28px]' : 'left-0 rounded-l-3xl rounded-r-md border-r-0 pr-[28px]';
-    const translateClass = isRight
-        ? (isOpen ? 'translate-x-[275px]' : 'translate-x-0')
-        : (isOpen ? '-translate-x-[275px]' : 'translate-x-0');
-
     return (
         <div
             ref={wrapperRef}
@@ -73,7 +68,8 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
         >
             <div
                 onClick={handleToggle}
-                className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"`}   >
+                className={`${isSidebarOpen ? 'w-[590px]' : 'w-[680px]'} h-[195px] relative z-20 bg-[#343333] flex border border-[#3d3d3d] items-stretch p-4 gap-6 justify-between rounded-3xl cursor-pointer hover:border-[#494949] hover:scale-[1.005] hover:shadow-md transition-all duration-300 ease-out"`}
+            >
                 {listing.cover ? (
                     <Image
                         src={listing.cover}
@@ -90,7 +86,6 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
 
                 {/* Card Details */}
                 <div className={`${isSidebarOpen ? 'w-[372px]' : 'w-[470px]'} flex flex-col justify-between py-1 transition-all duration-300 ease-in-out`}>
-                    {/* Title, Artist & Year, Heart button */}
                     <div className='flex flex-col gap-0'>
                         <div className="flex flex-1 justify-between min-w-0 items-center pr-1">
                             <span className="text-[20px] w-[300px] font-semibold min-w-0 truncate">{listing.title}</span>
@@ -110,7 +105,6 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
                         </div>
                     </div>
 
-                    {/* Price */}
                     <span
                         className={`text-3xl text-lime-600 font-semibold self-end ${isSidebarOpen ? 'pr-12' : 'pr-21'} transition-all duration-300 ease-in-out`}
                         style={{ textShadow: '0 0 18px rgba(74, 222, 128, 0.1), 0 0 40px rgba(74, 222, 128, 0.25)' }}
@@ -118,7 +112,6 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
                         ${listing.price.toFixed(2)}
                     </span>
 
-                    {/* Format, Condition, Info */}
                     <div className="w-full flex justify-between items-end pr-1">
                         <div className="flex gap-2 items-center pb-0.5">
                             <span className='bg-[#44444E] px-2 rounded-xl shadow-md border border-[#39394195]'>{listing.format}</span>
@@ -144,22 +137,13 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
                         </HoverCard>
                     </div>
                 </div >
-
             </div >
 
-            {/* Slide menu */}
-            < div
-                className={`absolute top-0 h-full bg-[#3a424b] border-gray-600/80 flex flex-col justify-center items-center gap-6 z-10 transition-all duration-300 ease-in-out border shadow-xl overflow-hidden
-                    ${menuPositionClass}
-                    ${isOpen ? `w-[300px] ${translateClass}` : `w-[300px] translate-x-0 opacity-0 pointer-events-none`}
-                `}
-            >
-                <span className="text-2xl text-gray font-semibold px-4 text-center">Open Original Listing?</span>
-                <div className="flex gap-4">
-                    <a href={listing.sourceLink} target="_blank" className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">Yes</a>
-                    <button onClick={() => setIsOpen(false)} className="border-2 border-gray text-gray text-xl px-8 py-2 rounded-xl hover:bg-black/10 transition-colors font-bold">No</button>
-                </div>
-            </div >
+            <SlideMenu
+                isRight={slideDirection === 'right'} isOpen={isOpen} setIsOpen={setIsOpen}
+                source={listing.source} sourceLink={listing.sourceLink}
+            />
+
         </div >
     )
 }

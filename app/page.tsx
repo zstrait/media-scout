@@ -28,7 +28,7 @@ export default function Home() {
                             Media Scout
                         </h1>
                     </div>
-                    <SearchBar placeholder='Search for an album...' width='2'/>
+                    <SearchBar placeholder='Search for an album...' width='w-2xl'/>
                 </div>
 
                 <footer className='flex justify-end pointer-events-auto'>

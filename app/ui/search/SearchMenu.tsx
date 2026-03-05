@@ -6,9 +6,9 @@ import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, Calendar
 
 interface SearchMenuProps {
     filters: FilterConditions,
-    onFilterChange: (newFilters: FilterConditions) => void;
-    isOpen: boolean;
-    setIsOpen: (value: boolean) => void;
+    onFilterChange: (newFilters: FilterConditions) => void,
+    isOpen: boolean,
+    setIsOpen: (value: boolean) => void
 }
 
 export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen }: SearchMenuProps) {
