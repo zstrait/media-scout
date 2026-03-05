@@ -1,24 +1,49 @@
 import SearchBar from "./ui/SearchBar";
+import Dither from './ui/Dither';
+
 
 export default function Home() {
     return (
-        <>
-            <div className='flex flex-col align-center bg-[#1E1E1E] text-gray-200 h-screen justify-between p-8 font-mono'>
+        <main className="relative h-screen w-full overflow-hidden bg-[#1E1E1E]">
+            <div className="absolute inset-0 z-0">
+                <Dither
+                    waveColor={[0.51, 0.47, 0.5]}
+                    disableAnimation={false}
+                    colorNum={4}
+                    waveAmplitude={0.3}
+                    waveFrequency={3}
+                    waveSpeed={0.04}
+                    enableMouseInteraction={false}
+                />
+            </div>
+
+            <div className='relative z-10 flex flex-col text-gray-200 h-screen justify-between p-8 font-mono pointer-events-none'>
                 <header className='flex justify-between'>
-                    {/* <button>NavMenu</button>
-                    <div className='flex justify-center gap-8 '>
-                        <button className="btn-1">darkmode</button>
-                        <button className="btn-1">account</button>
-                    </div> */}
                 </header>
-                <div className='flex flex-col items-center gap-8 mb-24'>
-                    <h1 className='text-6xl'>Media Scout</h1>
-                    <SearchBar placeholder='Search for album...' />
+
+                <div className='flex flex-col items-center gap-8 mb-4 pointer-events-auto'>
+                    <div className="relative inline-block">
+                        <div className="absolute inset-0 translate-y-1.5 rounded-2xl bg-black/80 blur-xl scale-120" />
+                        <h1 className="relative text-6xl pb-1 px-1 rounded-2xl ">
+                            Media Scout
+                        </h1>
+                    </div>
+                    <SearchBar placeholder='Search for an album...' />
                 </div>
-                <footer className='flex justify-end'>
-                    <a className='hover:text-blue-300 hover:underline underline-offset-4 cursor-pointer' href="https://github.com/zstrait/media-scout" target="_blank">github</a>
+
+                <footer className='flex justify-end pointer-events-auto'>
+                    <div className="relative inline-block">
+                        <div className="absolute inset-0 translate-y-1 rounded-full bg-black blur-md scale-110" />
+                        <a
+                            className="relative block w-12 h-12 bg-[url('/github-logo.svg')] bg-contain bg-no-repeat bg-center opacity-95 hover:opacity-100 hover:scale-105 transition-transform duration-300 cursor-pointer z-10"
+                            href="https://github.com/zstrait/media-scout"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="GitHub"
+                        />
+                    </div>
                 </footer>
             </div>
-        </>
+        </main>
     );
 }
