@@ -16,9 +16,9 @@ export default function SearchHeader() {
     return (
         <>
             <header className='flex justify-between items-center pb-1 px-2 pl-4'>
-                <div className='flex justify-center gap-6 items-center'>
+                <div className='flex justify-center gap-6 items-center pl-2'>
                     <Link href='/'>
-                        <House size={34} />
+                        <House size={34} opacity={0.8} />
                     </Link>
                 </div>
 
@@ -27,9 +27,9 @@ export default function SearchHeader() {
                 </Suspense>
 
                 <div className='flex justify-center gap-6 items-center'>
-                    <Moon size={36} />
+                    <Moon size={36} opacity={0.8}/>
                     <Avatar size={42}>
-                        <CircleUserRound size={42} strokeWidth={1.5} />
+                        <CircleUserRound size={42} strokeWidth={1.5} opacity={0.8}/>
                     </Avatar>
                 </div>
             </header>

@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
-import { Pagination, Divider } from '@mantine/core';
+import { Pagination, Divider, Loader } from '@mantine/core';
 
 import { Listing, FilterConditions } from "../lib/types";
 import ListingCard from "../ui/search/ListingCard";
 import SearchHeader from '../ui/search/SearchHeader';
 import ListingCardSkeleton from '../ui/search/ListingCardSkeleton';
 import SearchMenu from '../ui/search/SearchMenu';
+import NoResults from '../ui/search/NoResults';
 
 import { processResults } from '../lib/search';
 
@@ -85,54 +86,65 @@ export default function Page() {
             <Divider my="sm" />
 
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll pr-3">
-                <div
-                    className="flex"
-                    style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
-                >
+                <div className="flex" style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}>
                     <div className={`sticky top-0 self-start flex flex-col pt-1 ${isSidebarOpen ? '' : 'translate-x-[-180px]  mr-[-180px]'} transition-all duration-300 ease-in-out`}>
                         <SearchMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
                     </div>
 
-                    {/* Listings */}
-                    <div className="flex flex-col justify-between gap-4 pl-5 pt-1 w-full">
-                        <span className="underline underline-offset-6 pl-3 font-bold text-2xl self-start opacity-80">
-                            {totalItems.toLocaleString('en-us')} Results
-                        </span>
-
-                        <div className='flex justify-between gap-5 w-full'>
-                            <div className="flex flex-col gap-6 w-full items-end">
+                    {(!isLoading && displayedListings.length === 0)
+                        ? < NoResults search={String(query)} />
+                        : (
+                            <div className="flex flex-col justify-between gap-4 pl-5 pt-1 w-full">
                                 {isLoading
-                                    ? skeletons.slice(0, 10)
-                                    : leftColumnListings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} />
-                                    ))
+                                    ? (
+                                        <div className='flex gap-2 pl-3 font-bold text-2xl self-start opacity-80'>
+                                            <span>Searching for &quot;{query}&quot;</span>
+                                            <span className=' translate-y-1.5'>
+                                                <Loader color="rgba(191, 191, 191, 1)" type="dots" size={32} />
+                                            </span>
+                                        </div>
+                                    )
+                                    : (
+                                        <span className="underline underline-offset-6 pl-3 font-bold text-2xl self-start opacity-80">
+                                            {totalItems.toLocaleString('en-us')} Results
+                                        </span>
+                                    )
                                 }
-                            </div>
-                            <div className="flex flex-col gap-6 w-full items-end">
-                                {isLoading
-                                    ? skeletons.slice(10, 20)
-                                    : rightColumnListings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} slideDirection="left" />
-                                    ))
-                                }
-                            </div>
-                        </div>
-                        {/* Pagination Controls */}
-                        <div className="flex justify-center items-center py-8">
-                            <Pagination
-                                total={totalPages}
-                                value={page}
-                                siblings={1}
-                                onChange={(newPage) => {
-                                    router.push(createPageURL(newPage));
-                                }}
-                                color="gray"
-                                size="lg"
-                            />
-                        </div>
-                    </div>
 
+                                <div className='flex justify-between gap-5 w-full'>
+                                    <div className="flex flex-col gap-6 w-full items-end">
+                                        {isLoading
+                                            ? skeletons.slice(0, 10)
+                                            : leftColumnListings.map((listing) => (
+                                                <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} />
+                                            ))
+                                        }
+                                    </div>
+                                    <div className="flex flex-col gap-6 w-full items-end">
+                                        {isLoading
+                                            ? skeletons.slice(10, 20)
+                                            : rightColumnListings.map((listing) => (
+                                                <ListingCard key={listing.id} listing={listing} isSidebarOpen={isSidebarOpen} slideDirection="left" />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
 
+                                <div className="flex justify-center items-center py-8">
+                                    <Pagination
+                                        total={totalPages}
+                                        value={page}
+                                        siblings={1}
+                                        onChange={(newPage) => {
+                                            router.push(createPageURL(newPage));
+                                        }}
+                                        color="gray"
+                                        size="lg"
+                                    />
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>
