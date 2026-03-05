@@ -1,8 +1,9 @@
 'use client'
 
 import { useSearchParams, useRouter } from "next/navigation"
+import { Search } from "lucide-react"
 
-export default function SearchBar({ placeholder, width='w-xl' }: { placeholder: string, width?: string }) {
+export default function SearchBar({ placeholder, width = 'w-xl' }: { placeholder: string, width?: string }) {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
@@ -13,22 +14,23 @@ export default function SearchBar({ placeholder, width='w-xl' }: { placeholder: 
         if (term) {
             params.set('query', term);
         } else {
-            params.delete('query')
+            params.delete('query');
         }
 
-        replace(`/search?${params.toString()}`)
+        replace(`/search?${params.toString()}`);
     }
 
     return (
-        <input
-            className={`bg-gray-300 ${width} px-8 py-4 rounded-2xl inset-shadow-sm/90 text-black font-semibold`}
-            placeholder={placeholder}
-            defaultValue={searchParams.get('query')?.toString()}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    handleSearch(e.currentTarget.value);
-                }
-            }}
-        ></input>
+        <div className={`relative flex items-center ${width}`}>
+            <Search className="absolute left-4 text-gray-500 pointer-events-none opacity-75" size={20}  strokeWidth={2} />
+            <input
+                className="w-full bg-gray-300 pl-11 pr-4 py-4 rounded-3xl outline-none text-sm font-semibold text-black placeholder:text-gray-500 shadow-sm inset-shadow-sm/90 transition-colors duration-150 focus:bg-gray-200 "
+                placeholder={placeholder}
+                defaultValue={searchParams.get('query')?.toString()}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSearch(e.currentTarget.value);
+                }}
+            />
+        </div>
     )
 }
