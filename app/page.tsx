@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import SearchBar from "./ui/SearchBar";
 import Dither from './ui/Dither';
 
@@ -28,7 +29,9 @@ export default function Home() {
                             Media Scout
                         </h1>
                     </div>
-                    <SearchBar placeholder='Search for an album...' width='w-2xl'/>
+                    <Suspense fallback={<div className="h-14 w-2xl bg-gray-300 rounded-2xl animate-pulse" />}>
+                        <SearchBar placeholder='Search for an album...' width='w-2xl' />
+                    </Suspense>
                 </div>
 
                 <footer className='flex justify-end pointer-events-auto'>
