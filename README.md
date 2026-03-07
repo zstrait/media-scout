@@ -1,6 +1,6 @@
 # Media Scout
 
-- Media Scout is a marketplace aggregator designed to help users find physical media (vinyl, CDs, and cassettes). <br>
+- Media Scout is a marketplace aggregator designed to help users find physical media (vinyl, CDs, etc). <br>
 - It simultaneously searches across *Discogs* and *eBay*, combining the live listings from both sites into a single cohesive interface.
 
 ### [→  Live Demo  ←](https://mediascout.netlify.app/)
