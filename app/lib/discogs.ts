@@ -36,7 +36,7 @@ export async function getDiscogsResults(query: string, page: number = 1): Promis
 
     const response = await fetch(`${baseURL}?${params.toString()}`, {
         headers: DISCOGS_HEADERS,
-        next: { revalidate: 0 }
+        next: { revalidate: 300 }
     });
     if (!response.ok) {
         throw new Error("Error fetching Discogs Response Data");
@@ -93,7 +93,7 @@ export async function getReleaseStats(id: number): Promise<ReleaseStatistics> {
 
     const response = await fetch(url, {
         headers: DISCOGS_HEADERS,
-        next: { revalidate: 0 }
+        next: { revalidate: 300 }
     });
     if (!response.ok) {
         console.error(`Discogs API Error: ${response.status} ${response.statusText}`);
