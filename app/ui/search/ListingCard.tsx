@@ -8,6 +8,7 @@ import { HoverCard, ActionIcon, Text } from '@mantine/core';
 import { Info, Heart } from 'lucide-react';
 
 import SlideMenu from './SlideMenu';
+import { useWatchlist } from '@/app/lib/useWatchlist';
 
 interface ListingCardProps {
     listing: Listing,
@@ -20,7 +21,7 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
     const [zIndex, setZIndex] = useState('z-auto');
     const wrapperRef = useRef<HTMLDivElement>(null);
 
-    const [isHearted, setIsHearted] = useState(listing.isHearted ? listing.isHearted : false);
+    const { isFavorite, toggleFavorite } = useWatchlist();
     const [popping, setPopping] = useState(false);
 
     const handleClose = () => {
@@ -41,11 +42,11 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
 
     const handleHeartToggle = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
-        if (!isHearted) {
+        if (!isFavorite(listing.id)) {
             setPopping(true);
             setTimeout(() => setPopping(false), 300);
         }
-        setIsHearted(!isHearted);
+        toggleFavorite(listing);
     }
 
     useEffect(() => {
@@ -90,7 +91,7 @@ export default function ListingCard({ listing, slideDirection = 'right', isSideb
                         <div className="flex flex-1 justify-between min-w-0 items-center pr-1">
                             <span className="text-[20px] w-[300px] font-semibold min-w-0 truncate">{listing.title}</span>
                             <ActionIcon onClick={(e) => handleHeartToggle(e)} className={popping ? 'animate-heart-pop' : ''} variant='transparent' color='gray' size='lg'>
-                                {isHearted ? (
+                                {isFavorite(listing.id) ? (
                                     <Heart size={36} strokeWidth={1.5} color="#b52446" fill="#D92C54" />
                                 ) : (
                                     <Heart size={36} strokeWidth={1.7} />
