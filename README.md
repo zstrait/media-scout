@@ -21,6 +21,10 @@ https://github.com/user-attachments/assets/971af98f-1e74-4300-9d85-54f7b118d122
 
 - **Combined Search:** 
     - Queries the Discogs and eBay APIs in parallel and merges the responses into a single list of results.
+- **Favorites Watchlist:** 
+    - Users can favorite listings to save them to a dedicated Watchlist page.
+    - Utilizes browser LocalStorage to persist saved items across sessions without requiring user authentication.
+    - Full sorting and filtering capabilities are preserved for saved listings.
 - **Data Normalization:** 
     - Takes the different data formats from eBay and Discogs and converts them into a single, standard format for the frontend.
 - **Filtering and Sorting:** 
@@ -29,7 +33,7 @@ https://github.com/user-attachments/assets/971af98f-1e74-4300-9d85-54f7b118d122
 
 ## Features Roadmap
 
-- [ ] **Favorites / Watchlist:** Use localStorage to let users save listings without needing to create an account.
+- [x] **Favorites / Watchlist:** Use localStorage to let users save listings without needing to create an account.
 - [ ] **Artist Filtering:** Add a filter option to only show results that match a specific artist name.
 - [ ] **Autocomplete:** Use the Discogs database API to provide a dropdown of search suggestions as the user types.
 - [ ] **Accounts & Database:** Move favorites from localStorage to a PostgreSQL database, and add user logins.
