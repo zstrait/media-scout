@@ -4,14 +4,14 @@ import { Button, ActionIcon, Text, Divider, TextInput, Stack, Group, SimpleGrid 
 import { FilterConditions } from '@/app/lib/types';
 import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, CalendarDays, Store, Tag } from 'lucide-react';
 
-interface SearchMenuProps {
+interface FilterMenuProps {
     filters: FilterConditions,
     onFilterChange: (newFilters: FilterConditions) => void,
     isOpen: boolean,
     setIsOpen: (value: boolean) => void
 }
 
-export default function SearchMenu({ filters, onFilterChange, isOpen, setIsOpen }: SearchMenuProps) {
+export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen }: FilterMenuProps) {
     const sortOptions = ['Best Match', 'Price: Low to High', 'Price: High to Low'];
     const formatOptions = ['Vinyl', 'CD', 'Cassette', 'Other'];
     const platformOptions = ['eBay', 'Discogs'];

@@ -6,12 +6,12 @@ import { Pagination, Divider, Loader } from '@mantine/core';
 
 import { Listing, FilterConditions } from "../lib/types";
 import ListingCard from "../ui/search/ListingCard";
-import SearchHeader from '../ui/search/SearchHeader';
+import SearchHeader from '../ui/SearchHeader';
 import ListingCardSkeleton from '../ui/search/ListingCardSkeleton';
-import SearchMenu from '../ui/search/SearchMenu';
+import FilterMenu from '../ui/FilterMenu';
 import NoResults from '../ui/search/NoResults';
 
-import { processResults } from '../lib/search';
+import { applyFiltersAndSorting } from '../lib/utils';
 
 export default function Page() {
     const [listings, setListings] = useState<Listing[]>([]);
@@ -71,7 +71,7 @@ export default function Page() {
     }, [query, page]);
 
     const displayedListings = useMemo(() => {
-        return processResults(listings, activeFilters);
+        return applyFiltersAndSorting(listings, activeFilters);
     }, [activeFilters, listings]);
 
     const leftColumnListings = displayedListings.filter((_, index) => index % 2 === 0);
@@ -88,7 +88,7 @@ export default function Page() {
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll pr-3">
                 <div className="flex" style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}>
                     <div className={`sticky top-0 self-start flex flex-col pt-1 ${isSidebarOpen ? '' : 'translate-x-[-180px]  mr-[-180px]'} transition-all duration-300 ease-in-out`}>
-                        <SearchMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+                        <FilterMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
                     </div>
 
                     {(!isLoading && displayedListings.length === 0)
