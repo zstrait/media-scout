@@ -42,20 +42,18 @@ export function filterResults(results: Listing[], filters: FilterConditions): Li
 }
 
 export function sortResults(results: Listing[], sorting: string): Listing[] {
-    const sortedResults = [...results].sort((listing1, listing2) => {
-        switch (sorting) {
-            case 'Price: Low to High':
-                return listing1.price - listing2.price;
-            case 'Price: High to Low':
-                return listing2.price - listing1.price;
-            case 'Best Match':
-            default:
-                return 0;
-        }
-    });
+    // watchlist sorting
+    if (sorting === 'Date Added: Newest') return [...results].reverse();
+    if (sorting === 'Date Added: Oldest' || sorting === 'Best Match') return [...results];
 
-    return sortedResults;
+    // watchlist and search sorting
+    return [...results].sort((a, b) => {
+        if (sorting === 'Price: Low to High') return a.price - b.price;
+        if (sorting === 'Price: High to Low') return b.price - a.price;
+        return 0;
+    });
 }
+
 
 export function applyFiltersAndSorting(results: Listing[], filters: FilterConditions): Listing[] {
     const filteredResults = filterResults(results, filters);
