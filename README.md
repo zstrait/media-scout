@@ -28,7 +28,7 @@ https://github.com/user-attachments/assets/971af98f-1e74-4300-9d85-54f7b118d122
 - **Data Normalization:** 
     - Takes the different data formats from eBay and Discogs and converts them into a single, standard format for the frontend.
 - **Filtering and Sorting:** 
-    - Users can filter the combined results by media format, condition, release year, listing platform, artist name, and price range.
+    - Users can filter the combined results by media format, condition, artist, release year, listing platform, and price range.
     - Users can also sort results by Best Match / Lowest Price / Highest Price.
 
 ## Features Roadmap
