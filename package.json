@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "deploy": "netlify deploy --prod"
+        "deploy": "pnpm run build && netlify deploy --prod"
     },
     "dependencies": {
         "@mantine/core": "^8.3.15",
