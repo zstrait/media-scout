@@ -1,18 +1,18 @@
 'use-client'
 
-import { Button, ActionIcon, Text, Divider, TextInput, Stack, Group, SimpleGrid } from '@mantine/core';
+import { Button, ActionIcon, Text, Divider, TextInput, Stack, Group, SimpleGrid, Menu, MenuTarget, MenuDropdown, MenuItem } from '@mantine/core';
 import { FilterConditions } from '@/app/lib/types';
-import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, CalendarDays, Store, Tag } from 'lucide-react';
+import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, CalendarDays, Store, Tag, ChevronDown, UserSearch } from 'lucide-react';
 
 interface FilterMenuProps {
     filters: FilterConditions,
     onFilterChange: (newFilters: FilterConditions) => void,
     isOpen: boolean,
-    setIsOpen: (value: boolean) => void
+    setIsOpen: (value: boolean) => void,
+    isWatchlist?: boolean
 }
 
-export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen }: FilterMenuProps) {
-    const sortOptions = ['Best Match', 'Price: Low to High', 'Price: High to Low'];
+export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen, isWatchlist = false }: FilterMenuProps) {
     const formatOptions = ['Vinyl', 'CD', 'Cassette', 'Other'];
     const platformOptions = ['eBay', 'Discogs'];
 
@@ -49,36 +49,82 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen 
                             Sort
                         </Text>
                     </div>
-                    <Stack gap={6}>
-                        {sortOptions.map(s => {
-                            const isActive = filters.sorting === s;
-                            return (
-                                <Button
-                                    key={s}
-                                    onClick={() => onFilterChange({ ...filters, sorting: s })}
-                                    variant="default"
-                                    fullWidth
-                                    radius="md"
-                                    size="sm"
+
+                    <Menu>
+                        <MenuTarget>
+                            <Button
+                                rightSection={<ChevronDown size={14} />}
+                                variant="default"
+                                fullWidth
+                                radius="md"
+                                size="sm"
+                                fz={14}
+                                px={12}
+                                ff="monospace"
+                                bg="#353535"
+                                c="#bababad1"
+                                bd="1px solid #525151"
+                                justify="space-between"
+                                style={{ transition: 'all 120ms ease' }}
+                            >
+                                {filters.sorting}
+                            </Button>
+                        </MenuTarget>
+
+
+                        <MenuDropdown>
+                            {isWatchlist ? (
+                                <>
+                                    <MenuItem
+                                        onClick={() => onFilterChange({ ...filters, sorting: 'Date Added: Newest' })}
+                                        ff="monospace"
+                                    >
+                                        Date Added: Newest
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        onClick={() => onFilterChange({ ...filters, sorting: 'Date Added: Oldest' })}
+                                        ff="monospace"
+                                    >
+                                        Date Added: Oldest
+                                    </MenuItem>
+                                </>
+                            ) : (
+                                <MenuItem
+                                    onClick={() => onFilterChange({ ...filters, sorting: 'Best Match' })}
                                     ff="monospace"
-                                    bg={isActive ? '#4a4a4a' : '#1E1E1E'}
-                                    c={isActive ? '#fff' : '#6b7280'}
-                                    bd={`1px solid ${isActive ? '#666' : '#383838'}`}
-                                    style={{ transition: 'all 120ms ease' }}
                                 >
-                                    {s}
-                                </Button>
-                            );
-                        })}
-                    </Stack>
+                                    Best Match
+                                </MenuItem>
+                            )}
+
+                            <MenuItem
+                                onClick={() => onFilterChange({ ...filters, sorting: 'Price: Low to High' })}
+                                ff="monospace"
+                            >
+                                Price: Low to High
+                            </MenuItem>
+
+                            <MenuItem
+                                onClick={() => onFilterChange({ ...filters, sorting: 'Price: High to Low' })}
+                                ff="monospace"
+                            >
+                                Price: High to Low
+                            </MenuItem>
+                        </MenuDropdown>
+
+                    </Menu>
                 </Stack>
 
                 <Divider color="#383838" />
 
+
+
+
                 {/* Price */}
                 <Stack gap={6}>
                     <div className='flex items-center gap-2 '>
-                         <Banknote size={18} color='#828282' />
+                        <Banknote size={18} color='#828282' />
                         <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                             Price
                         </Text>
@@ -149,6 +195,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen 
 
                 <Divider color="#383838" />
 
+                {/* Release Year */}
                 <Stack gap={6}>
                     <div className='flex items-center gap-2 '>
                         <CalendarDays size={16} color='#828282' />
@@ -188,7 +235,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen 
 
                 {/* Platform */}
                 <Stack gap={6}>
-                      <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2 '>
                         <Store size={16} color='#828282' />
                         <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                             Platform
@@ -222,7 +269,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen 
 
                 {/* Condition */}
                 <Stack gap={6}>
-                      <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2 '>
                         <Tag size={16} color='#828282' />
                         <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
                             Condition

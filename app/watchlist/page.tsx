@@ -18,7 +18,7 @@ export default function Page() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const [activeFilters, setActiveFilters] = useState<FilterConditions>({
-        sorting: 'Best Match',
+        sorting: 'Date Added: Newest',
         priceMin: undefined,
         priceMax: undefined,
         format: [],
@@ -42,7 +42,7 @@ export default function Page() {
             <div ref={scrollContainerRef} className="flex flex-col h-full overflow-scroll pr-3">
                 <div className="flex" style={{ minHeight: 'auto' }}>
                     <div className={`sticky top-0 self-start flex flex-col pt-1 ${isSidebarOpen ? '' : 'translate-x-[-180px]  mr-[-180px]'} transition-all duration-300 ease-in-out`}>
-                        <FilterMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+                        <FilterMenu filters={activeFilters} onFilterChange={setActiveFilters} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} isWatchlist={true}/>
                     </div>
 
                     {(favorites.length === 0)
