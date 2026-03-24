@@ -54,7 +54,7 @@ async function getAccessToken(): Promise<string> {
             grant_type: 'client_credentials',
             scope: 'https://api.ebay.com/oauth/api_scope'
         }).toString(),
-        next: { revalidate: 300 }
+        cache: 'no-store'
     });
 
     if (!response.ok) {
@@ -83,7 +83,8 @@ export async function getEbayResults(query: string, page: number = 1): Promise<e
     const response = await fetch(`${baseURL}${params.toString()}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US'
         },
         next: { revalidate: 300 }
     });
@@ -103,7 +104,8 @@ export async function getItemDetails(item_id: string): Promise<ebayItemDetails> 
     const response = await fetch(url, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US'
         },
         next: { revalidate: 300 }
     });
