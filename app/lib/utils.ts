@@ -19,7 +19,6 @@ export function filterResults(results: Listing[], filters: FilterConditions): Li
             default:
                 format = 'Other';
         }
-        
         // price
         if (filters.priceMin && listing.price < filters.priceMin) { return false; }
         if (filters.priceMax && listing.price > filters.priceMax) { return false; }
@@ -48,15 +47,24 @@ export function sortResults(results: Listing[], sorting: string): Listing[] {
 
     // watchlist and search sorting
     return [...results].sort((a, b) => {
-        if (sorting === 'Price: Low to High') return a.price - b.price;
-        if (sorting === 'Price: High to Low') return b.price - a.price;
+        if (sorting === 'Price: Low to High') { return a.price - b.price; }
+        if (sorting === 'Price: High to Low') { return b.price - a.price; }
         return 0;
     });
 }
 
+export function filterArtist(listings: Listing[], artist?: string): Listing[] {
+    if (!artist || artist.trim() === '') { return listings; }
+
+    const searchArtist = artist.toLowerCase().trim();
+    return listings.filter(listing => {
+        return listing.artist && listing.artist.toLowerCase().includes(searchArtist);
+    });
+}
 
 export function applyFiltersAndSorting(results: Listing[], filters: FilterConditions): Listing[] {
-    const filteredResults = filterResults(results, filters);
+    const artistFiltered = filterArtist(results, filters.artist);
+    const filteredResults = filterResults(artistFiltered, filters);
     if (filters.sorting === 'Best Match') {
         return filteredResults;
     }

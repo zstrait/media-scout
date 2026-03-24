@@ -22,6 +22,7 @@ export interface FilterConditions {
     sorting: string,
     priceMin?: number,
     priceMax?: number,
+    artist?: string,
     format: string[],
     yearMin?: number,
     yearMax?: number

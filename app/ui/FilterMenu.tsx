@@ -2,7 +2,7 @@
 
 import { Button, ActionIcon, Text, Divider, TextInput, Stack, Group, SimpleGrid, Menu, MenuTarget, MenuDropdown, MenuItem } from '@mantine/core';
 import { FilterConditions } from '@/app/lib/types';
-import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, CalendarDays, Store, Tag, ChevronDown, UserSearch } from 'lucide-react';
+import { PanelLeftClose, PanelRightClose, ArrowDownUp, Banknote, Disc3, CalendarDays, Store, Tag, ChevronDown, UserSearch, X } from 'lucide-react';
 
 interface FilterMenuProps {
     filters: FilterConditions,
@@ -71,7 +71,6 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             </Button>
                         </MenuTarget>
 
-
                         <MenuDropdown>
                             {isWatchlist ? (
                                 <>
@@ -118,9 +117,6 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
 
                 <Divider color="#383838" />
 
-
-
-
                 {/* Price */}
                 <Stack gap={6}>
                     <div className='flex items-center gap-2 '>
@@ -140,7 +136,6 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                                 root: "flex-1",
                                 input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
                             }}
-
                         />
                         <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
                         <TextInput
@@ -156,6 +151,40 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
 
                         />
                     </Group>
+                </Stack>
+
+                <Divider color="#383838" />
+
+                {/* Artist */}
+                <Stack gap={6}>
+                    <div className='flex items-center gap-2 '>
+                        <UserSearch size={18} color='#828282' />
+                        <Text fw={700} tt="uppercase" c="dimmed" style={{ letterSpacing: '0.08em', fontSize: '14px' }}>
+                            Artist
+                        </Text>
+                    </div>
+                    <TextInput
+                        placeholder="Search artists..."
+                        value={filters.artist || ''}
+                        onChange={(e) => { onFilterChange({ ...filters, artist: e.currentTarget.value }) }}
+                        size="sm"
+                        radius="md"
+                        rightSection={
+                            filters.artist ? (
+                                <ActionIcon
+                                    size="sm"
+                                    variant="transparent"
+                                    c="dimmed"
+                                    onClick={() => onFilterChange({ ...filters, artist: '' })}
+                                >
+                                    <X size={14} />
+                                </ActionIcon>
+                            ) : null
+                        }
+                        classNames={{
+                            input: "!bg-[#1E1E1E] border-[#383838]  text-gray-200 font-mono text-sm transition-all duration-200 focus:border-[#666] focus:!bg-[#222]"
+                        }}
+                    />
                 </Stack>
 
                 <Divider color="#383838" />

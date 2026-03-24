@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
 import { Pagination, Divider, Loader } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 
 import { Listing, FilterConditions } from "../lib/types";
 import ListingCard from "../ui/search/ListingCard";
@@ -30,10 +31,12 @@ export default function Page() {
         sorting: 'Best Match',
         priceMin: undefined,
         priceMax: undefined,
+        artist: '',
         format: [],
         platform: [],
         condition: []
     });
+    const [debouncedArtist] = useDebouncedValue(activeFilters.artist, 800);
 
     const createPageURL = (pageNumber: number) => {
         const params = new URLSearchParams(searchParams);
@@ -53,7 +56,8 @@ export default function Page() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch(`/api/search?query=${query}&page=${page}`);
+                const backendQuery = debouncedArtist ? `${query} ${debouncedArtist.trim()}` : query;
+                const res = await fetch(`/api/search?query=${backendQuery}&page=${page}`);
                 if (!res.ok) throw new Error('Failed to fetch data.')
 
                 const results = await res.json();
@@ -68,7 +72,7 @@ export default function Page() {
         };
         fetchData();
 
-    }, [query, page]);
+    }, [query, page, debouncedArtist]);
 
     const displayedListings = useMemo(() => {
         return applyFiltersAndSorting(listings, activeFilters);

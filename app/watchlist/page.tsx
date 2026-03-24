@@ -21,6 +21,7 @@ export default function Page() {
         sorting: 'Date Added: Newest',
         priceMin: undefined,
         priceMax: undefined,
+        artist: '',
         format: [],
         platform: [],
         condition: []
