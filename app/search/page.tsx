@@ -115,7 +115,7 @@ export default function Page() {
                                     )
                                 }
 
-                                <div className='flex justify-between gap-5 w-full'>
+                                <div className='flex justify-between gap-5 w-full h-full'>
                                     <div className="flex flex-col gap-6 w-full items-end">
                                         {isLoading
                                             ? skeletons.slice(0, 10)

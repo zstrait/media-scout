@@ -134,7 +134,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             radius="sm"
                             classNames={{
                                 root: "flex-1",
-                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full focus:!border-[#A2A2A2]"
                             }}
                         />
                         <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
@@ -146,7 +146,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             radius="sm"
                             classNames={{
                                 root: "flex-1",
-                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full focus:!border-[#A2A2A2]"
                             }}
 
                         />
@@ -182,7 +182,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             ) : null
                         }
                         classNames={{
-                            input: "!bg-[#1E1E1E] border-[#383838]  text-gray-200 font-mono text-sm transition-all duration-200 focus:border-[#666] focus:!bg-[#222]"
+                            input: "!bg-[#1E1E1E] !border-[#383838] text-gray-200 font-mono text-sm transition-all duration-200 focus:!border-[#A2A2A2] focus:!outline-white focus:!bg-[#222]"
                         }}
                     />
                 </Stack>
@@ -211,7 +211,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                                     ff="monospace"
                                     fz={12}
                                     bg={isActive ? '#4a4a4a' : '#1E1E1E'}
-                                    c={isActive ? '#fff' : '#6b7280'}
+                                    c={isActive ? '#fff' : '#696969'}
                                     bd={`1px solid ${isActive ? '#666' : '#383838'}`}
                                     style={{ transition: 'all 120ms ease' }}
                                 >
@@ -241,7 +241,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             radius="sm"
                             classNames={{
                                 root: "flex-1",
-                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full focus:!border-[#A2A2A2]"
                             }}
                         />
                         <Text c="dimmed" size="sm" style={{ flexShrink: 0 }}>—</Text>
@@ -253,7 +253,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                             radius="sm"
                             classNames={{
                                 root: "flex-1",
-                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full"
+                                input: "!bg-[#1E1E1E] border-[#383838] text-gray-200 placeholder:text-center font-mono text-sm h-full focus:!border-[#A2A2A2]"
                             }}
 
                         />
@@ -283,7 +283,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                                     size="sm"
                                     ff="monospace"
                                     bg={isActive ? '#4a4a4a' : '#1E1E1E'}
-                                    c={isActive ? '#fff' : '#6b7280'}
+                                    c={isActive ? '#fff' : '#696969'}
                                     bd={`1px solid ${isActive ? '#666' : '#383838'}`}
                                     style={{ transition: 'all 120ms ease' }}
                                 >
@@ -314,7 +314,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                                 size="sm"
                                 ff="monospace"
                                 bg={filters.condition.includes('New') ? '#4a4a4a' : '#1E1E1E'}
-                                c={filters.condition.includes('New') ? '#fff' : '#6b7280'}
+                                c={filters.condition.includes('New') ? '#fff' : '#696969'}
                                 bd={`1px solid ${filters.condition.includes('New') ? '#666' : '#383838'}`}
                                 style={{ transition: 'all 120ms ease' }}
                             >
@@ -329,7 +329,7 @@ export default function FilterMenu({ filters, onFilterChange, isOpen, setIsOpen,
                                 size="sm"
                                 ff="monospace"
                                 bg={filters.condition.includes('Used') ? '#4a4a4a' : '#1E1E1E'}
-                                c={filters.condition.includes('Used') ? '#fff' : '#6b7280'}
+                                c={filters.condition.includes('Used') ? '#fff' : '#696969'}
                                 bd={`1px solid ${filters.condition.includes('Used') ? '#666' : '#383838'}`}
                                 style={{ transition: 'all 120ms ease' }}
                             >

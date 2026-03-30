@@ -36,7 +36,6 @@ https://github.com/user-attachments/assets/971af98f-1e74-4300-9d85-54f7b118d122
 - [x] ~**Favorites / Watchlist:** Use localStorage to let users save listings without needing to create an account.~
 - [x] ~**Artist Filtering:** Add a filter option to only show results that match a specific artist name.~
 - [ ] **Autocomplete:** Use the Discogs database API to provide a dropdown of search suggestions as the user types.
-- [ ] **Accounts & Database:** Move favorites from localStorage to a PostgreSQL database, and add user logins.
 
 ## Running Locally
 
