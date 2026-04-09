@@ -18,6 +18,12 @@ export interface SearchResults {
     totalItems: number
 }
 
+export interface SearchSuggestion {
+    album: string,
+    artist: string,
+    cover?: string,
+}
+
 export interface FilterConditions {
     sorting: string,
     priceMin?: number,
@@ -29,3 +35,4 @@ export interface FilterConditions {
     platform: string[],
     condition: string[]
 }
+
