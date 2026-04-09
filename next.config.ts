@@ -18,7 +18,11 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'i.ebayimg.com',
                 pathname: '/**',
-            }
+            },
+             {
+                protocol: 'https',
+                hostname: 'lastfm.freetls.fastly.net',
+            },
         ],
     }
 };
